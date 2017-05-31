@@ -10,10 +10,26 @@
     var _translatorSubC = Pard.UserInfo['texts']['subcategories'];
 
     var _content = $('<div>').addClass('very-fast reveal full');
-    var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
+    var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true, closeOnEsc:false});
     $(document).ready(function(){
       $('body').append(_content);
     })
+
+
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>').addClass('popup-container-full');
+    var _sectionContainer = $('<section>').addClass('popup-content');
+    var _header = $('<div>').addClass('row popup-header');
+    var _title = $('<h4>').addClass('small-11 popup-title').append(eventName);
+    var _callback = function(){};
+    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'})
+      .append($('<span>').html('&times;'));
+    _header.append(_title, _closeBtn);
+    _popupContent.append(_header, _sectionContainer);
+    _container.append(_popupContent)
+    _outerContainer.append(_container);
+
 
     var _displayArtistProgram = function(profile_id){
       var artist = the_event.artists[profile_id];
@@ -68,7 +84,48 @@
       _popup.open();
     }
 
+    var _displayProposalsList = function(proposal, type, _list){
+      var _proposalIndex = _list.findIndex(function(el, index){return el.indexOf(proposal.proposal_id)>0 });
+      var _display = function(proposalIndex){
+        var _nextProposal = _list[proposalIndex].split('_');
+        var _profileId = _nextProposal[0];
+        var _proposalId = _nextProposal[1];
+        var _type = _nextProposal[2];
+        _sectionContainer.empty();
+        var _displayDict = {
+          artist: function(){_displayProposal(the_event[_type+'s'][_profileId]['proposals'][_proposalId]['proposal'], _type)},
+          space: function(){_displayProposal(the_event[_type+'s'][_profileId]['space'], _type)}
+        }
+        _displayDict[_type]();
+      };
+
+      var _leftBtn = $('<div>')
+        .append(
+          $('<div>').append(Pard.Widgets.IconManager('navigation_left').render()).css('position','relative')
+        )
+        .addClass('leftBtn-listProposal')
+        .click(function(){
+          _proposalIndex = _proposalIndex - 1
+          if (_proposalIndex < 0) _proposalIndex = _list.length-1; 
+         _display(_proposalIndex);
+        });
+      var _rightBtn = $('<div>')
+        .append(
+          $('<div>').append(Pard.Widgets.IconManager('navigation_right').render().css('position','relative'))
+        )
+        .addClass('rightBtn-listProposal')
+        .click(function(){
+          _proposalIndex = _proposalIndex + 1
+          if(_proposalIndex == _list.length) _proposalIndex = 0;
+          _display(_proposalIndex);         
+        });
+      _container.append(_leftBtn, _rightBtn);
+      _displayProposal(proposal, type);
+    }
+
+    
     var _displayProposal = function(proposal, type){
+
       proposal.proposal_type = type;
       var _proposal = $.extend(true, {}, proposal);
 
@@ -179,7 +236,8 @@
         space: Pard.Backend.modifySpaceProposal
       }
       _modifyProposal.click(function(){
-        _messageProposalPrintedRendered.hide();
+        _outerContainer.addClass('displayNone-for-large');
+        // _messageProposalPrintedRendered.hide();
         var _formWidget = Pard.Widgets.OwnProposalForm(form.blocks, type, _proposal.form_category, (!proposal.own));
         _formWidget.setVal(_proposal);
         if (!proposal.own) _formWidget.disableFields();
@@ -218,32 +276,74 @@
           );
         });
         var _modifyMessage = Pard.Widgets.PopupContent(eventName, _formWidget);
-        _modifyMessage.prependToContent($('<p>').text(Pard.t.text('manager.proposals.modifymex',{type: form.label})).css('margin-bottom','-0.5rem'));
+        _modifyMessage.prependToContent(
+          $('<div>').append(
+            $('<div>')
+              .append(
+                $('<button>')
+                  .attr('type','button')
+                  .append(Pard.Widgets.IconManager('navigation_left').render(), $('<span>').text(' Atrás'))
+                  .click(function(){
+                    _modifyMessageRendered.remove();
+                    _outerContainer.removeClass('displayNone-for-large');
+                  })
+                  .addClass('back-button')
+                )
+              .css({
+                'position':'relative',
+                'height':'1rem'
+              }),
+            $('<p>')
+              .text(Pard.t.text('manager.proposals.modifymex',{type: form.label}))
+          )
+         .css('margin-bottom','-.5rem')
+        );
         _modifyMessage.appendToContent(Pard.Widgets.Button(
           Pard.t.text('dictionary.cancel').capitalize(),
           function(){
             _modifyMessageRendered.remove();
-            _messageProposalPrintedRendered.show();
+            _outerContainer.removeClass('displayNone-for-large');
+            // _messageProposalPrintedRendered.show();
           }).render()
           .addClass('cancelBtn-modifyProposalForm')
         );
         _modifyMessage.setCallback(function(){
+          console.log('modifyClose')
           _content.empty();
+          _sectionContainer.empty();
+          _container.empty().append(_popupContent);
+          _outerContainer.removeClass('displayNone-for-large');
           _popup.close();
         });
         var _modifyMessageRendered = _modifyMessage.render();
         _content.append(_modifyMessageRendered);
       });
 
-      var _messageProposalPrinted = Pard.Widgets.PopupContent(eventName, _proposalPrinted);
-      _messageProposalPrinted.setCallback(function(){
+      
+
+      // var _messageProposalPrinted = Pard.Widgets.PopupContent(eventName, _proposalPrinted);
+
+      // _messageProposalPrinted.setCallback(function(){
+      //   _content.empty();
+      //   _popup.close();
+      // });
+
+      _sectionContainer.append(_proposalPrinted.render());
+
+      _closeBtn.click(function(){
         _content.empty();
+        _container.empty().append(_popupContent);
+        _sectionContainer.empty();
+        _outerContainer.removeClass('displayNone-for-large');
         _popup.close();
       });
 
       _content.click(function(e){
         if ($(e.target).hasClass('vcenter-inner')) {
           _content.empty();
+          _sectionContainer.empty();
+          _container.empty().append(_popupContent);
+          _outerContainer.removeClass('displayNone-for-large');
           _popup.close();
         }
       });   
@@ -252,22 +352,28 @@
         var _label = $('<span>').addClass('myProposals-field-label').text(Pard.t.text('dictionary.amend').capitalize() + ':').css('display', 'block');
         var _text = $('<span>').text(' ' + _proposal.amend);
         var _element = $('<div>').append($('<p>').append(_label, _text));
-        _messageProposalPrinted.appendToContent(_element);
+        _sectionContainer.append(_element);
       };
 
       var _actionBtnContainer = $('<div>').addClass('actionButton-container-popup');
       _actionBtnContainer.append($('<span>').append(_modifyProposal).addClass('element-actionButton'));
       _actionBtnContainer.append($('<span>').append(_deleteProposalCaller).addClass('element-actionButton').css({ 'border-left':'1px solid #bebebe' }));
   
-      _messageProposalPrinted.prependToContent(_actionBtnContainer);
       if (_proposal.own) {
-        var _warningOwnText = $('<p>').text(Pard.t.text('manager.proposals.organizerProposal'));
-        _messageProposalPrinted.prependToContent(_warningOwnText);
+        var _warningOwnText = $('<p>').text(Pard.t.text('manager.proposals.organizerProposal')).css('margin-top','1.5rem');
+        _sectionContainer.prepend(_warningOwnText);
       }
-      var _messageProposalPrintedRendered = _messageProposalPrinted.render();
-      _content.append(_messageProposalPrintedRendered);
 
-      _popup.open();
+      _sectionContainer.prepend(_actionBtnContainer);
+      
+      // var _messageProposalPrintedRendered = _messageProposalPrinted.render();
+      
+      // _content.append(_messageProposalPrintedRendered);
+     
+      if (!_content.html()) {
+        _content.append(_outerContainer);
+        _popup.open();
+      }
     }
 
     var _createOwnProposal = function(type, participants){
@@ -329,6 +435,7 @@
 
     return{
       displayProposal: _displayProposal,
+      displayProposalsList: _displayProposalsList,
       displayArtistProgram: _displayArtistProgram,
       displaySpaceProgram: _displaySpaceProgram,
       createOwnProposal: _createOwnProposal,

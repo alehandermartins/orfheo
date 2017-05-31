@@ -83,7 +83,7 @@
       space: Pard.t.text('manager.proposals.spaceProposals')
     }
 
-    _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(displayer);
+    _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(displayer, 'allProposals');
     _tablesContainer['allProposals'] = $('<div>').append(_dataTables['allProposals'].table);
     _subcategorySelector['allProposals'] = $('<select>');
 
@@ -97,7 +97,7 @@
         _selectorOptions[type] = [];
         for (var formcat in forms[type]){
           _tablesContainer[formcat] = $('<div>');
-          _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat].blocks, displayer);
+          _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat].blocks, displayer, formcat);
           _selectorOptions[type].push({id:formcat, text: forms[type][formcat].label})
           _tablesContainer[formcat].append(_dataTables[formcat].table).hide();
           _proposalsNumber[formcat] = 0;
@@ -403,6 +403,7 @@
               }
             }
           });
+          Pard.Widgets.InfoTab[typeTable] = _dataTables[typeTable].DataTable;   
         }
         else{
           _dataTables[typeTable].DataTable = _dataTables[typeTable].table.DataTable({
@@ -560,6 +561,7 @@
               }
             }
           });
+          Pard.Widgets.InfoTab[typeTable] = _dataTables[typeTable].DataTable;        
         }
       });
     });

@@ -4,7 +4,7 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.PrintTable = function(proposalType, form, displayer) {
+  ns.Widgets.PrintTable = function(proposalType, form, displayer, typeTable) {
 
     var _form = $.extend(true, {}, form);
 
@@ -103,7 +103,7 @@
       _orfheoFields[proposalType].forEach(function(field){
         if (_form[field] || $.inArray(field, _mandatoryFields[proposalType])>-1){
           var _info = '';
-          if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber);
+          if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber, typeTable);
           else _info = _proposal[field];
           var _col = $('<td>').addClass('column-call-manager-table');
           if (_form[field].input == 'Text' || _form[field].input == 'Links') _col.addClass('column-Inputtext');
@@ -159,7 +159,7 @@
 
 
 
-  ns.Widgets.PrintTableAllProposal = function(displayer){
+  ns.Widgets.PrintTableAllProposal = function(displayer, typeTable){
 
     var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0"}).css({
       'margin': '0 auto',
@@ -183,6 +183,7 @@
     var _emailColumn;
     var _tableFields = [];
     var proposalNumber = 0;
+    var _listDisplayer = function(){};
 
     _orfheoFields.forEach(function(field, index){
       if(field == 'subcategory') _subcategoryColumn = index; 
@@ -226,7 +227,7 @@
       if (proposalType == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
       _orfheoFields.forEach(function(field){
         var _info = '';
-        if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber);
+        if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber, typeTable);
         else _info = _proposal[field];
         var _col = $('<td>').addClass('column-call-manager-table');
         if (_form[field].input == 'Text' || _form[field].input == 'Links') _col.addClass('column-Inputtext');
@@ -237,7 +238,7 @@
 
       return _row;
     }
-
+    var _dataTable;
     return {
       table: _table,
       addRow: function(proposalType, proposal, profile){
@@ -289,9 +290,10 @@
       input: 'type'
     },
     name:{ 
-      info: function(proposal, displayer) { 
+      info: function(proposal, displayer, np, typeTable) { 
         return $('<a>').attr({'href':'#/'}).append(proposal.name).on('click', function(){
-           displayer.displayProposal(proposal, proposal.proposal_type);
+          var _list = Pard.Widgets.InfoTab[typeTable].column(0, { search:'applied' }).data().toArray();  
+          displayer.displayProposalsList(proposal, proposal.proposal_type, _list);
         });
       },
       label: Pard.t.text('dictionary.name').capitalize(),
@@ -356,7 +358,7 @@
     titleAddress:{
       info: function(proposal, displayer){
         if (proposal.title) return proposal['title'];
-        else if (proposal.address) return Pard.Widgets.InfoTab['address'].info(proposal, displayer);
+        else if (proposal.address) return Pard.Widgets.InfoTab['address'].info(proposal);
       },
       label : Pard.t.text('dictionary.title').capitalize() + ' / ' + Pard.t.text('dictionary.address').capitalize(),
       input : "Inputtext"
@@ -370,7 +372,7 @@
     },
     profile_id:{
       info: function(proposal){
-        return proposal.own ? proposal.profile_id+'own' : proposal.profile_id+'received'; 
+        return proposal.own ? proposal.profile_id+'_'+proposal.proposal_id+'_'+proposal.type+'_own' : proposal.profile_id+'_'+proposal.proposal_id+'_'+proposal.type+'_received';
       },
       label:'profile_id',
       input: 'Inputtex'

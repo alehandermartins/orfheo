@@ -1090,7 +1090,7 @@ Profile Section
 
 .actionButton-container-popup{
   text-align: right;
-  margin-bottom: -1.5rem;
+  margin-bottom: -1rem;
   .element-actionButton{
     display: inline-block;
     padding: 0 0.7rem;
@@ -2001,19 +2001,20 @@ div.dataTables_wrapper div.dataTables_filter{
 }
 
 .utilBox{
-  border: 1px solid;
+  border: 1px solid  $grey-3;
   @include border-radius($element-border-radius);
   position: relative;
   padding: 1rem;
   margin-bottom: .75rem;
-  border-left: 4px solid;
+  border-left: 4px solid $grey-3;
 }
 
 .arrow-util-box{
   position: absolute;
   left: -.6rem;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   top: 1rem;
+  color:  $grey-3;
 }
 
 .utilTitle{

@@ -205,7 +205,7 @@ Grid and Bar
   }
 
   .displayNone-for-large {
-      display: none;
+      display: none !important;
   }
 
   .off-canvas-content{
@@ -937,6 +937,65 @@ a.navigation-btn-callPage{
 
 .footer-languages-btn:hover {
   color: $grey-3;
+}
+
+.leftBtn-listProposal, .rightBtn-listProposal{
+  position: fixed;
+  top: 50vh;
+  z-index: 9;
+  color: white;
+  .material-icons{
+    font-size: 2.2rem;
+    position: absolute;
+    top: 3px;
+    left: 2px;
+  }
+  @include border-radius(50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(0,0,0,.4);
+  cursor: pointer;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.leftBtn-listProposal:hover, .rightBtn-listProposal:hover{
+  background: rgba(0, 0, 0, .2);
+}
+
+.rightBtn-listProposal{
+  right: -moz-calc(50vw - 24rem);
+  right: -webkit-calc(50vw - 24rem);
+  right: calc(50vw - 24rem);
+}
+
+.leftBtn-listProposal{
+  right: -moz-calc(50vw + 24rem);
+  right: -webkit-calc(50vw + 24rem);
+  right: calc(50vw + 24rem);
+}
+
+.back-button{
+  color: #2199e8;
+  font-size: $smallSize;
+  span{
+    vertical-align: middle;
+  }
+  .material-icons{
+    font-size: 1.1rem;
+  }
+  position:absolute;
+  right:0;
+}
+
+.back-button:hover{
+  color: #3885ff;
 }
 
 /*===============================================
