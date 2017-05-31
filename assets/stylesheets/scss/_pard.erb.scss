@@ -205,7 +205,7 @@ Grid and Bar
   }
 
   .displayNone-for-large {
-      display: none;
+      display: none !important;
   }
 
   .off-canvas-content{
@@ -979,6 +979,23 @@ a.navigation-btn-callPage{
   right: -moz-calc(50vw + 24rem);
   right: -webkit-calc(50vw + 24rem);
   right: calc(50vw + 24rem);
+}
+
+.back-button{
+  color: #2199e8;
+  font-size: $smallSize;
+  span{
+    vertical-align: middle;
+  }
+  .material-icons{
+    font-size: 1.1rem;
+  }
+  position:absolute;
+  right:0;
+}
+
+.back-button:hover{
+  color: #3885ff;
 }
 
 /*===============================================

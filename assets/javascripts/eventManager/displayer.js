@@ -236,7 +236,7 @@
         space: Pard.Backend.modifySpaceProposal
       }
       _modifyProposal.click(function(){
-        _outerContainer.hide();
+        _outerContainer.addClass('displayNone-for-large');
         // _messageProposalPrintedRendered.hide();
         var _formWidget = Pard.Widgets.OwnProposalForm(form.blocks, type, _proposal.form_category, (!proposal.own));
         _formWidget.setVal(_proposal);
@@ -276,18 +276,43 @@
           );
         });
         var _modifyMessage = Pard.Widgets.PopupContent(eventName, _formWidget);
-        _modifyMessage.prependToContent($('<p>').text(Pard.t.text('manager.proposals.modifymex',{type: form.label})).css('margin-bottom','-0.5rem'));
+        _modifyMessage.prependToContent(
+          $('<div>').append(
+            $('<div>')
+              .append(
+                $('<button>')
+                  .attr('type','button')
+                  .append(Pard.Widgets.IconManager('navigation_left').render(), $('<span>').text(' Atrás'))
+                  .click(function(){
+                    _modifyMessageRendered.remove();
+                    _outerContainer.removeClass('displayNone-for-large');
+                  })
+                  .addClass('back-button')
+                )
+              .css({
+                'position':'relative',
+                'height':'1rem'
+              }),
+            $('<p>')
+              .text(Pard.t.text('manager.proposals.modifymex',{type: form.label})),
+          )
+         .css('margin-bottom','-.5rem')
+        );
         _modifyMessage.appendToContent(Pard.Widgets.Button(
           Pard.t.text('dictionary.cancel').capitalize(),
           function(){
             _modifyMessageRendered.remove();
-            _outerContainer.show();
+            _outerContainer.removeClass('displayNone-for-large');
             // _messageProposalPrintedRendered.show();
           }).render()
           .addClass('cancelBtn-modifyProposalForm')
         );
         _modifyMessage.setCallback(function(){
+          console.log('modifyClose')
           _content.empty();
+          _sectionContainer.empty();
+          _container.empty().append(_popupContent);
+          _outerContainer.removeClass('displayNone-for-large');
           _popup.close();
         });
         var _modifyMessageRendered = _modifyMessage.render();
@@ -309,6 +334,7 @@
         _content.empty();
         _container.empty().append(_popupContent);
         _sectionContainer.empty();
+        _outerContainer.removeClass('displayNone-for-large');
         _popup.close();
       });
 
@@ -317,6 +343,7 @@
           _content.empty();
           _sectionContainer.empty();
           _container.empty().append(_popupContent);
+          _outerContainer.removeClass('displayNone-for-large');
           _popup.close();
         }
       });   
@@ -332,11 +359,13 @@
       _actionBtnContainer.append($('<span>').append(_modifyProposal).addClass('element-actionButton'));
       _actionBtnContainer.append($('<span>').append(_deleteProposalCaller).addClass('element-actionButton').css({ 'border-left':'1px solid #bebebe' }));
   
-      _sectionContainer.prepend(_actionBtnContainer);
       if (_proposal.own) {
-        var _warningOwnText = $('<p>').text(Pard.t.text('manager.proposals.organizerProposal'));
+        var _warningOwnText = $('<p>').text(Pard.t.text('manager.proposals.organizerProposal')).css('margin-top','1.5rem');
         _sectionContainer.prepend(_warningOwnText);
       }
+
+      _sectionContainer.prepend(_actionBtnContainer);
+      
       // var _messageProposalPrintedRendered = _messageProposalPrinted.render();
       
       // _content.append(_messageProposalPrintedRendered);
