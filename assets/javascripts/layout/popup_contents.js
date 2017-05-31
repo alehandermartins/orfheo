@@ -105,7 +105,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _titleContact = $('<h5>').text(Pard.t.text('contact.contactTab.title'));  
     _contactCont.append(_titleContact);
-    var _textContact = $('<p>').html('<strong> orfheo </strong></br>Calle nuestra señora de la asunción, 4b</br>Valencia (' +  (Pard.t.text('contact.contactTab.country')) + ') 46020</br> (0034) 633 753 471</br> <a href="mailto:info@orfheo.org">info@orfheo.org</a></br><a href="https://www.facebook.com/orfheo.org", target="_blank">Facebook</a>').css({'text-align':'center'});
+    var _textContact = $('<p>').html('<strong> orfheo </strong></br>Calle nuestra señora de la asunción, 4b</br>Valencia (' +  (Pard.t.text('contact.contactTab.country')) + ') 46020</br> (0034) 744 605 573</br> <a href="mailto:info@orfheo.org">info@orfheo.org</a></br><a href="https://www.facebook.com/orfheo.org", target="_blank">Facebook</a>').css({'text-align':'center'});
 
     _contactCont.append(_textContact);
 
