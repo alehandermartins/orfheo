@@ -84,7 +84,10 @@
       _popup.open();
     }
 
+    var _cachedList;
+
     var _displayProposalsList = function(proposal, type, _list){
+      _cachedList = _list;
       var _proposalIndex = _list.findIndex(function(el, index){return el.indexOf(proposal.proposal_id)>0 });
       var _display = function(proposalIndex){
         var _nextProposal = _list[proposalIndex].split('_');
@@ -236,7 +239,6 @@
         space: Pard.Backend.modifySpaceProposal
       }
       _modifyProposal.click(function(){
-        _outerContainer.addClass('displayNone-for-large');
         // _messageProposalPrintedRendered.hide();
         var _formWidget = Pard.Widgets.OwnProposalForm(form.blocks, type, _proposal.form_category, (!proposal.own));
         _formWidget.setVal(_proposal);
@@ -269,7 +271,11 @@
                   _modifiedProposal.profile_id = _artist.profile_id;
                   _modifiedProposal.phone = _artist.phone;
                 }
-                _displayProposal(_modifiedProposal, type);
+                _content.empty();
+                _sectionContainer.empty();
+                _container.empty().append(_popupContent);
+                _outerContainer.removeClass('displayNone-for-large')
+                _displayProposalsList(_modifiedProposal, type, _cachedList);
                 stopSpinner();
               }
             }
@@ -294,7 +300,7 @@
                 'height':'1rem'
               }),
             $('<p>')
-              .text(Pard.t.text('manager.proposals.modifymex',{type: form.label}))
+              .text(Pard.t.text('manager.proposals.modifymex',{type: form.label}))  
           )
          .css('margin-bottom','-.5rem')
         );
@@ -308,7 +314,6 @@
           .addClass('cancelBtn-modifyProposalForm')
         );
         _modifyMessage.setCallback(function(){
-          console.log('modifyClose')
           _content.empty();
           _sectionContainer.empty();
           _container.empty().append(_popupContent);

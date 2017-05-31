@@ -253,7 +253,7 @@
   }
 
   ns.Widgets.ProgramCard = function(performance, host, size){
-
+    console.log(performance)
     var _progCard = $('<div>').addClass('program-card-container');
     var _time = $('<div>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');

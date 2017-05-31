@@ -125,6 +125,7 @@
       var profile = artists[profile_id].artist;
       if (profile.own) _own['artists'][profile_id] = the_event.artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
+        if (profile.own) proposal.own = profile.own;
         _proposalsNumber[proposal.form_category] = _proposalsNumber[proposal.form_category] + 1;
         _dataTables[proposal.form_category].addRow(proposal, profile);
         _dataTables['allProposals'].addRow('artist', proposal, profile);
