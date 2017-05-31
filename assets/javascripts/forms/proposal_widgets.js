@@ -220,7 +220,7 @@
           _fieldFormText.append(_text);
         }
         else if(form.blocks[field]['input'] == 'Links'){
-          var _text = $('<div>').append($('<a>').text(proposal[field]).attr({'href': 'http://' + proposal[field], 'target': '_blank'}));
+          var _text = $('<div>').append($('<a>').text(proposal[field]).attr({'href': proposal[field], 'target': '_blank'}));
           _fieldFormText.append(_text);
         }
         else if(form.blocks[field]['input'] == 'TextAreaEnriched'){
