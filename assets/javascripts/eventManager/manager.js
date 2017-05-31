@@ -5,6 +5,8 @@
 
   ns.Widgets.Manager = function(the_event, forms){
 
+    console.log(the_event)
+
     var artists = the_event.artists;
     var spaces = the_event.spaces;
 
