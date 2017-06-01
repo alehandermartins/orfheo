@@ -939,7 +939,7 @@ a.navigation-btn-callPage{
   color: $grey-3;
 }
 
-.leftBtn-listProposal, .rightBtn-listProposal{
+.leftBtn-listProposal, .rightBtn-listProposal, .leftBtn-listProgramSpace, .rightBtn-listProgramSpace{
   position: fixed;
   top: 50vh;
   z-index: 9;
@@ -965,7 +965,7 @@ a.navigation-btn-callPage{
                                   supported by Chrome and Opera */
 }
 
-.leftBtn-listProposal:hover, .rightBtn-listProposal:hover{
+.leftBtn-listProposal:hover, .rightBtn-listProposal:hover, .rightBtn-listProgramSpace:hover, .leftBtn-listProgramSpace:hover{
   background: rgba(0, 0, 0, .2);
 }
 
@@ -979,6 +979,14 @@ a.navigation-btn-callPage{
   right: -moz-calc(50vw + 24rem);
   right: -webkit-calc(50vw + 24rem);
   right: calc(50vw + 24rem);
+}
+
+.rightBtn-listProgramSpace{
+  right: 1rem;
+}
+
+.leftBtn-listProgramSpace{
+  left:  1rem;
 }
 
 .back-button{
@@ -3019,6 +3027,7 @@ body.is-reveal-open{
 
 .space-program-popup-call-manager{
   width: 1024px;
+  max-width: 1024px;
   background: white;
   @include horizontal-center;
   padding: 1.5rem;

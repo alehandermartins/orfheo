@@ -953,7 +953,7 @@
       },
       host_name: {
         info: function(show){
-          return $('<a>').attr('href','#/').text(show.host_name).click(function(){displayer.displaySpaceProgram(show.host_id)});
+          return $('<a>').attr('href','#/').text(show.host_name).click(function(){displayer.displaySpaceProgramList(show.host_id)});
         },
         label: Pard.t.text('dictionary.space').capitalize()
       },

@@ -300,7 +300,7 @@
       var _programLink = $('<li>');
       var _programCaller = $('<a>').attr('href','#/').text(Pard.t.text('dictionary.program').capitalize());
       _programCaller.on('click', function(){
-        displayer.displaySpaceProgram(space.profile_id);
+        displayer.displaySpaceProgramList(space.profile_id);
       });
       _programLink.append(_programCaller);
       _menu.append(_programLink);

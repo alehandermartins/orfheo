@@ -573,6 +573,7 @@
       },
       addArtist: function(artist){
         var proposal = artist.proposals[0];
+        proposal.own = artist.own;
         _dataTables[proposal.form_category].DataTable.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
         _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
         _proposalsNumber[proposal.form_category] += 1;
@@ -624,6 +625,7 @@
       modifyArtist: function(artist){
         var profile = the_event.artists[artist.profile_id].artist;
         profile.proposals.forEach(function(proposal){
+          proposal.own = artist.own;
           _dataTables['allProposals'].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();
           _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, profile)).order([2,'desc']).draw();
           _dataTables[proposal.form_category].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();

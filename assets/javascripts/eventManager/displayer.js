@@ -21,7 +21,7 @@
     var _popupContent = $('<div>').addClass('popup-container-full');
     var _sectionContainer = $('<section>').addClass('popup-content');
     var _header = $('<div>').addClass('row popup-header');
-    var _title = $('<h4>').addClass('small-11 popup-title').append(eventName);
+    var _title = $('<h4>').addClass('small-11 popup-title');
     var _callback = function(){};
     var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'})
       .append($('<span>').html('&times;'));
@@ -29,6 +29,15 @@
     _popupContent.append(_header, _sectionContainer);
     _container.append(_popupContent)
     _outerContainer.append(_container);
+
+    var _closePopup = function(){
+      _content.empty();
+      _sectionContainer.empty();
+      _title.empty();
+      _container.empty().append(_popupContent);
+      _outerContainer.removeClass('displayNone-for-large');
+      _popup.close();
+    }
 
 
     var _displayArtistProgram = function(profile_id){
@@ -62,26 +71,72 @@
       _popup.open();
     }
 
-    var _displaySpaceProgram = function(profile_id){
+    var _displaySpaceProgramList = function(profile_id){
 
+      var _spaceList = []; 
+      for (var sp in the_event.spaces){
+        _spaceList[the_event.spaces[sp].space.index] = sp; 
+      }
+
+      var _spaceIndex = the_event.spaces[profile_id].space.index;
+
+      var _leftBtn = $('<div>')
+        .append(
+          $('<div>').append(Pard.Widgets.IconManager('navigation_left').render()).css('position','relative')
+        )
+        .addClass('leftBtn-listProgramSpace')
+        .click(function(){
+          _spaceIndex = _spaceIndex - 1
+          if (_spaceIndex < 0) _spaceIndex = _spaceList.length-1; 
+         _displaySpaceProgram(_spaceList[_spaceIndex]);
+        });
+      var _rightBtn = $('<div>')
+        .append(
+          $('<div>').append(Pard.Widgets.IconManager('navigation_right').render().css('position','relative'))
+        )
+        .addClass('rightBtn-listProgramSpace')
+        .click(function(){
+          _spaceIndex = _spaceIndex + 1
+          if(_spaceIndex == _spaceList.length) _spaceIndex = 0;
+          _displaySpaceProgram(_spaceList[_spaceIndex]);        
+        });
+      _container.append(_leftBtn, _rightBtn);
+      _displaySpaceProgram(profile_id);
+
+    }
+
+
+
+    var _displaySpaceProgram = function(profile_id){
+ 
       var space = the_event.spaces[profile_id].space;
       var myprogram = the_event.spaces[profile_id].program;
 
-      var _message = Pard.Widgets.PopupContent(space.name + ' ('+Pard.UserInfo['texts'].subcategories['space'][space.subcategory]+')', Pard.Widgets.SpaceProgram(space, myprogram, the_event.artists, the_event.program), 'space-program-popup-call-manager');
-      _message.setCallback(function(){
-        _popup.close();
-        _content.empty();
+      var _tableProgram = Pard.Widgets.SpaceProgram(space, myprogram, the_event.artists, the_event.program);
+
+      _sectionContainer.empty();
+      _title.empty().append(space.name + ' ('+Pard.UserInfo['texts'].subcategories['space'][space.subcategory]+')');
+      _popupContent.addClass('space-program-popup-call-manager');
+
+      _sectionContainer.append(_tableProgram.render());
+
+      _closeBtn.click(function(){
+        _closePopup();
+        _popupContent.removeClass('space-program-popup-call-manager');
       });
 
       _content.click(function(e){
         if ($(e.target).hasClass('vcenter-inner')) {
-          _popup.close();
-          _content.empty();
+          _closePopup();
+          _popupContent.removeClass('space-program-popup-call-manager');
         }
-      });
+      }); 
 
-      _content.append(_message.render());
-      _popup.open();
+      if (!_content.html()) {
+        _content.append(_outerContainer);
+        _popup.open();
+      }  
+
     }
 
     var _cachedList;
@@ -198,10 +253,7 @@
               _deleteProposalBackend[type](_proposal.proposal_id, event_id, function(data){
                 deleteCallback(data);
                 spinnerDeleteProposal.stop();
-                _popup.close();
-                _sectionContainer.empty();
-                _container.empty().append(_popupContent);
-                _content.empty();
+                _closePopup()
                 callback();
               });
             });
@@ -241,7 +293,6 @@
         space: Pard.Backend.modifySpaceProposal
       }
       _modifyProposal.click(function(){
-        // _messageProposalPrintedRendered.hide();
         var _formWidget = Pard.Widgets.OwnProposalForm(form.blocks, type, _proposal.form_category, (!proposal.own));
         _formWidget.setVal(_proposal);
         if (!proposal.own) _formWidget.disableFields();
@@ -261,7 +312,6 @@
                 stopSpinner();
               }
               else{
-                _content.empty();
                 if (type == 'space') {
                   var _modifiedProposal = data.model;
                 }
@@ -272,11 +322,13 @@
                   _modifiedProposal.email = _artist.email;
                   _modifiedProposal.profile_id = _artist.profile_id;
                   _modifiedProposal.phone = _artist.phone;
+                  _modifiedProposal.own = (_artist.own == 'true');
                 }
                 _content.empty();
                 _sectionContainer.empty();
+                _title.empty();
                 _container.empty().append(_popupContent);
-                _outerContainer.removeClass('displayNone-for-large')
+                _outerContainer.removeClass('displayNone-for-large');
                 _displayProposalsList(_modifiedProposal, type, _cachedList);
                 stopSpinner();
               }
@@ -311,47 +363,25 @@
           function(){
             _modifyMessageRendered.remove();
             _outerContainer.removeClass('displayNone-for-large');
-            // _messageProposalPrintedRendered.show();
           }).render()
           .addClass('cancelBtn-modifyProposalForm')
         );
         _modifyMessage.setCallback(function(){
-          _content.empty();
-          _sectionContainer.empty();
-          _container.empty().append(_popupContent);
-          _outerContainer.removeClass('displayNone-for-large');
-          _popup.close();
+          _closePopup()
         });
         var _modifyMessageRendered = _modifyMessage.render();
         _content.append(_modifyMessageRendered);
       });
 
-      
-
-      // var _messageProposalPrinted = Pard.Widgets.PopupContent(eventName, _proposalPrinted);
-
-      // _messageProposalPrinted.setCallback(function(){
-      //   _content.empty();
-      //   _popup.close();
-      // });
-
       _sectionContainer.append(_proposalPrinted.render());
 
       _closeBtn.click(function(){
-        _content.empty();
-        _container.empty().append(_popupContent);
-        _sectionContainer.empty();
-        _outerContainer.removeClass('displayNone-for-large');
-        _popup.close();
+        _closePopup()
       });
 
       _content.click(function(e){
         if ($(e.target).hasClass('vcenter-inner')) {
-          _content.empty();
-          _sectionContainer.empty();
-          _container.empty().append(_popupContent);
-          _outerContainer.removeClass('displayNone-for-large');
-          _popup.close();
+          _closePopup()
         }
       });   
 
@@ -373,11 +403,8 @@
 
       _sectionContainer.prepend(_actionBtnContainer);
       
-      // var _messageProposalPrintedRendered = _messageProposalPrinted.render();
-      
-      // _content.append(_messageProposalPrintedRendered);
-     
       if (!_content.html()) {
+        _title.append(eventName);
         _content.append(_outerContainer);
         _popup.open();
       }
@@ -445,6 +472,7 @@
       displayProposalsList: _displayProposalsList,
       displayArtistProgram: _displayArtistProgram,
       displaySpaceProgram: _displaySpaceProgram,
+      displaySpaceProgramList :_displaySpaceProgramList,
       createOwnProposal: _createOwnProposal,
       close: function(){
         _popup.close();
