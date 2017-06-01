@@ -482,9 +482,7 @@
       var _titleTextLong;
 
       _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
-      var _performaceTitlePopup = $('<span>').click(function(){
-        displayer.displayProposal(_proposal, 'artist');
-      }).addClass('performanceManagerTitle');
+      var _performaceTitlePopup = $('<span>');
 
       _titleText.on('click', function(){
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','99');
@@ -492,9 +490,12 @@
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
-        _performaceTitlePopup.text(_name).click(function(){
-          displayer.displayProposal(_proposal, 'artist');
-        }).addClass('performanceManagerTitle');
+        _performaceTitlePopup
+          .text(_name)
+          .click(function(){
+              displayer.displayProposal(_proposal, 'artist');
+            })
+          .addClass('performanceManagerTitle');
         var _message = Pard.Widgets.PopupContent(_performaceTitlePopup, manager(true));
         _message.setCallback(function(){
           _popup.close();          

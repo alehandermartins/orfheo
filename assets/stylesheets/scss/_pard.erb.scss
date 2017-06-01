@@ -976,9 +976,9 @@ a.navigation-btn-callPage{
 }
 
 .leftBtn-listProposal{
-  right: -moz-calc(50vw + 24rem);
-  right: -webkit-calc(50vw + 24rem);
-  right: calc(50vw + 24rem);
+  right: -moz-calc(50vw + 22.5rem);
+  right: -webkit-calc(50vw + 22.5rem);
+  right: calc(50vw + 22.5rem);
 }
 
 .rightBtn-listProgramSpace{
@@ -2473,7 +2473,7 @@ button.footer-text-link:hover{
 
 .subtitle-project-info{
   font-weight: bold;
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   margin-bottom: 1rem;
 }
 
