@@ -201,9 +201,9 @@ ns.Widgets = ns.Widgets || {};
     var _lastModify = $('<div>').append($('<p>').text(Pard.t.text('popup.termsAndConditions.date')).addClass('conditions-lastModify')).addClass('conditions-par');
     var _part1 = $('<div>').html(Pard.t.text('popup.termsAndConditions.part1')).addClass('conditions-par');
 
-    var _subtitle2 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle2')).addClass('subtitle-conditions');
-    var _mex2  = Pard.t.text('popup.termsAndConditions.subtitle2');
-    var _part2 = $('<div>').append(_subtitle2, _mex2).addClass('conditions-par');
+    // var _subtitle2 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle2')).addClass('subtitle-conditions');
+    // var _mex2  = Pard.t.text('popup.termsAndConditions.subtitle2');
+    // var _part2 = $('<div>').append( _mex2).addClass('conditions-par');
 
     var _subtitle3 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle3')).addClass('subtitle-conditions');
     var _mex3  = Pard.t.text('popup.termsAndConditions.mex3');
@@ -238,7 +238,7 @@ ns.Widgets = ns.Widgets || {};
       .addClass('close-button-bottom-popup')
       .append(_closeBtn.render());
 
-    _createdWidget.append(_image, _web, _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part5_5, _part_coockies, _part6, _subtitle7, _finalMex, _closeBtnContainer);
+    _createdWidget.append(_image, _web, _title, _lastModify, _part1, _part3, _part4, _part5, _part5_5, _part_coockies, _part6, _subtitle7, _finalMex, _closeBtnContainer);
 
     return{
       render: function(){
