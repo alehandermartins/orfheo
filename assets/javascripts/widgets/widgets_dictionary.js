@@ -6,7 +6,7 @@
    ns.Widgets.IconManager = function(icon_name){
 
     var _iconDictionary = {
-      settings: {icon: '&#xE8B8;', className:'materials-icon'},
+      settings: {icon:'&#xE8B8;', className:'material-icons'},
       space: {icon: '&#xE88A;', className: 'material-icons'},
       artist: {icon: '&#xE7FD;', className: 'material-icons'},
       organization: {icon:'&#xE7EF', className:'material-icons'},
@@ -71,6 +71,8 @@
       cache:{icon:'&#xE227;', className:'material-icons'},
       stage:{icon:'&#xE0C8;', className:'material-icons'},
       performer:{icon:'&#xE029;', className:'material-icons'},
+      play_circle:{icon:'&#xE039;', className:'material-icons'},
+      // 
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
       hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},
       circle_arrow_up: {icon:'', className:'fa fa-arrow-circle-up'},

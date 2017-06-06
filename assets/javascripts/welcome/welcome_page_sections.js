@@ -472,8 +472,9 @@ ns.Widgets = ns.Widgets || {};
       });
       _printCarousel(_profilesArray);
     });
+    var _scrollDownBtn = $('<div>').append($('<a>').append($('<span>'))).addClass('scrollDown-arrow');
     _entryContent.append(_logoContainer, _signUpBtn,  _cardsContainer);
-    _entryDiv.append(_entryContentContainer.append(_entryContent));
+    _entryDiv.append(_entryContentContainer.append(_entryContent, _scrollDownBtn));
     
     var _profilesDiv = $('<div>').addClass('actionDiv');
     var _titleProfiles = $('<h4>').html(Pard.t.text('welcome.profilesSection.title')).addClass('title-welcome');
@@ -546,14 +547,17 @@ ns.Widgets = ns.Widgets || {};
       })
       .css('margin-top','2rem')
       .addClass('callText-WelcomePage');
-    var _littleTextDiv= $('<div>').addClass('littleTextDiv')
-      .append(
-        $('<div>').append(
-          _titleLittleText, 
-          _littleText, 
-          _callLittleText)
-        .addClass('welcomeSection-container')
-      );
+    // var _ibackground = $('<div>').addClass('background-initialSection');
+    var _littleTextcontent = $('<div>')
+          .addClass('pard-grid isContainer')
+          .append(
+      $('<div>').append(
+        _titleLittleText, 
+        _littleText, 
+        _callLittleText)
+      .addClass('welcomeSection-container')
+    );
+    var _littleTextDiv= $('<div>').append(_littleTextcontent).addClass('littleTextDiv');
 
 
 
@@ -561,7 +565,7 @@ ns.Widgets = ns.Widgets || {};
     var _logoServices = $('<div>').addClass('logo-services');
     var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
     var _callService = $('<div>').addClass('i-container');
-    var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('proposals').render().addClass('servicesWelcome-icon'));
+    var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('tools').render().addClass('servicesWelcome-icon'));
     var _callTitle = $('<h4>').text(Pard.t.text('welcome.servicesSection.subtitle1'));
     var _callTxt = $('<p>').html(Pard.t.text('welcome.servicesSection.section1'));
     _callService.append($('<div>').append(_iconCallService, _callTitle, _callTxt).addClass('callServices-innerCont'));

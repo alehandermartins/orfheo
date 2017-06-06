@@ -496,10 +496,10 @@
         link: 'Déjate inspirar'
       },
       servicesSection: {
-        logo: 'R e c u r s o s',
-        subtitle1: 'Herramienta de gestión',
-        subtitle2: 'Asesoría creativa',
-        subtitle3: 'Conexión API',
+        logo: 'S e r v i c i o s',
+        subtitle1: 'Manager',
+        subtitle2: 'Asesoría',
+        subtitle3: 'API',
         section1: 'Crea un evento,</br> lanza una convocatoria, </br>utiliza la herramienta de gestión </br>y publica una programación interactiva.',
         section2: 'Saca lo mejor de tu proyecto,</br> alimenta tu comunidad </br>y explora nuevas estrategias creativas durante el proceso.',
         section3: 'Reenvía los datos de tu evento a tu página web o aplicación móvil y utilízalos siempre actualizados como mejor te convenga.',
@@ -768,7 +768,8 @@
       }
     },
     services: {
-      mex: 'Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta. <br> <b>El precio no es un límite: lo decidimos juntos</b>. ',
+      mex: 'Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.',
+      // <br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta. <br> <b>El precio no es un límite: lo decidimos juntos</b>. ',
       contact: 'Contáctanos',
       section1: {
         title: 'Expande tu evento más allá de un evento',
@@ -783,7 +784,7 @@
         mex: 'Visualiza, filtra y explora de forma fácil y rápida todas las propuestas recibidas. Navega entre los perfiles y selecciona los participantes. Exporta datos, listados de correo y todo lo que te haga falta con tan solo un "click". Ahorra tiempo, aprovecha la potencia de la información bien organizada, mantén todo bajo control.'
       },
       section4: {
-        title: 'Crear el programa nunca ha sido igual',
+        title: 'Crea el programa, nunca ha sido igual',
         mex: 'Construir la programación de tu evento es tan fácil como arrastrar las propuestas en un tablón. Organiza junto a tu equipo y desde cualquier lugar. Todo está sincronizado en tiempo real y rápidamente modificable. Confirma, comenta y descarga el programa en tablas ordenadas.'
       },
       section5: {

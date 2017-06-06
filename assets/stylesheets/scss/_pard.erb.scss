@@ -121,6 +121,21 @@ a.profileCard:hover{
     height: 100%;
 }
 
+.strikediag {
+  display: inline-block;
+  position: relative;
+}
+.strikediag::before {
+  content: '';
+  position: absolute;
+  left: -0.1em;
+  right: -0.1em;
+  top: 0.38em;
+  bottom: 0.38em;
+  background: linear-gradient(to left top, transparent 45.5%, currentColor 47.5%, currentColor 52.5%, transparent 54.5%);
+  pointer-events: none;
+}
+
 .innerWrapperDiv{
   width:100vw;
   @include breakpoint(medium down){
@@ -361,6 +376,14 @@ BUTTONS
   }
 button{
    outline: none;
+}
+
+.abutton{
+  color: #3885ff;
+}
+
+.abutton:hover{ 
+  color: rgba(56, 133, 255, 0.8);
 }
 
 .submit-button{
@@ -3358,3 +3381,56 @@ Multiple select
 .ms-parent{
   width: 100% !important;
 } 
+
+
+
+/* ===========================
+ANIMATED SCROLL DOWN
+========================== */
+
+.scrollDown-arrow a {
+  padding-top: 70px;
+}
+.scrollDown-arrow a span {
+  position: fixed;
+  bottom: 4rem;
+  right: 2%;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  border-left: 1px solid #000;
+  border-bottom: 1px solid #000;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-animation: sdb05 1.5s infinite;
+  animation: sdb05 1.5s infinite;
+  box-sizing: border-box;
+}
+@-webkit-keyframes sdb05 {
+  0% {
+    -webkit-transform: rotate(-45deg) translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: rotate(-45deg) translate(-20px, 20px);
+    opacity: 0;
+  }
+}
+@keyframes sdb05 {
+  0% {
+    transform: rotate(-45deg) translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-45deg) translate(-20px, 20px);
+    opacity: 0;
+  }
+}
+
+

@@ -2118,7 +2118,7 @@
       var _btn = $('<button>')
         .attr({'type':'button', 'title':Pard.t.text('manager.program.menu.helper')})
         .append(
-          Pard.Widgets.IconManager('tools').render()
+          Pard.Widgets.IconManager('menu').render()
         );
       var _iconDropdownMenu = $('<li>').append(
         _btn
