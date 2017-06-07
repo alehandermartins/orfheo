@@ -42,4 +42,4 @@
 // = require jquery.waypoints.min
 // = require jquery.scrollindicatorbullets.min
 
-
+// = require URI

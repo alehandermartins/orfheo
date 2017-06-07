@@ -129,7 +129,7 @@ ns.Widgets = ns.Widgets || {};
               Pard.Widgets.CreateCard(profile).render()
                 .addClass('position-profileCard-login')
                 .attr({
-                  target: '_blank'
+                  // target: '_blank'
                 })
             )
         );
@@ -164,7 +164,7 @@ ns.Widgets = ns.Widgets || {};
                         $('<div>').addClass('card-container-WelcomePage')
                           .append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')
                           .attr({
-                            target: '_blank'
+                            // target: '_blank'
                           })
                         )
                       );
@@ -361,7 +361,7 @@ ns.Widgets = ns.Widgets || {};
                   $('<div>').addClass('card-container-WelcomePage')
                     .append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')
                     .attr({
-                      target: '_blank'
+                      // target: '_blank'
                     })
                   )
                 );
@@ -449,7 +449,7 @@ ns.Widgets = ns.Widgets || {};
         if (index == 0){
           _cardCont.addClass('cardSelected slick-center')
           _profileCard.attr({
-              target: '_blank'
+              // target: '_blank'
             });
         }
         else if (index == 1 || index == 11) _cardCont.addClass('slick-active');

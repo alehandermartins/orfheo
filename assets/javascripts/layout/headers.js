@@ -12,8 +12,10 @@ ns.Widgets = ns.Widgets || {};
     var _upperContent = $('<div>').addClass('pard-grid contentHeader');
     var _lowerContainer = $('<div>').addClass('navBarHeader');
     var _navBarContainer = $('<div>').addClass('navBarContainer black');
-    var _navBar = $('<div>').addClass('pard-grid');    
+    var _navBar = $('<div>').addClass('pard-grid');
 
+    var _uri = new URI(document.location);
+    
     var _showHide = function(id_){
       if (_lowerContainer.hasClass('fixedNavBar')){
         _lowerContainer.removeClass('fixedNavBar');
@@ -198,9 +200,9 @@ ns.Widgets = ns.Widgets || {};
 
     var _arraySections = ['#profiles','#events','#news'];
 
-    if ($.inArray(window.location.hash, _arraySections)>-1){
+    if ($.inArray(_uri.hash(), _arraySections)>-1){
       $(document).ready(function(){
-        $(window.location.hash+'Btn').trigger('click');
+        $(_uri.hash()+'Btn').trigger('click');
       })
     }
     else{
