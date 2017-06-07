@@ -329,6 +329,11 @@ main.mainWelcomePage, main.mainUserPage{
   }
 }
 
+
+#profilesSection:target{
+  display: block !important;
+}
+
 .card-container-WelcomePage{
   margin: 0 0.9rem;
   display: inline-block;
@@ -3974,3 +3979,5 @@ CROWDFUNDING
 .placeholderSelect{
   color:  #987b7d;
 }
+
+

@@ -10,7 +10,15 @@ ns.Widgets = ns.Widgets || {};
 
     var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
 
-    var _welcomeSection = Pard.Widgets.WelcomeSection().attr('id','welcomeSection').addClass('visible');
+    var _welcomeSection = $('<section>')
+    .addClass('welcomeSection-layout')
+    .attr('id','welcomeSection').hide();
+    // if (window.location.hash.length>1){
+    //   _welcomeSection.hide();
+    // }
+    // else{
+    //   _welcomeSection.addClass('visible');
+    // }
 
     var _profiles= $('<section>')
       .addClass('welcomeSection-layout')
@@ -38,7 +46,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
 
-    var _initSection = Pard.Widgets.UserInitSection().attr('id','welcomeSection').addClass('visible');
+    var _initSection = Pard.Widgets.UserInitSection().attr('id','welcomeSection').hide();
 
     var _profiles= $('<section>')
       .addClass('welcomeSection-layout')

@@ -407,7 +407,7 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.WelcomeSection = function(){
 
-    var _section = $('<section>').addClass('welcomeSection-layout');
+    var _section = $('<div>');
 
     var _entryDiv = $('<div>').addClass('entryDiv');
     var _entryContentContainer = $('<div>').addClass('welcomeSection-container');
@@ -611,10 +611,6 @@ ns.Widgets = ns.Widgets || {};
       _littleTextDiv.addClass('page-section').attr('id','in'), 
       _servicesDiv.addClass('page-section').attr('id','s')
     );
-
-    $(document).ready(function(){
-      $('div.page-section').scrollIndicatorBullets();
-    });   
 
     return _section;
 

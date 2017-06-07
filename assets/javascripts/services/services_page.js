@@ -289,7 +289,6 @@ ns.Widgets = ns.Widgets || {};
 
 		$(document).ready(function(){
       var _scrollIndicator = $('.page-section').scrollIndicatorBullets();
-      console.log($('div.page-section'))
     });   
 
 
