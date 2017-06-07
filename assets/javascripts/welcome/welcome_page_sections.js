@@ -472,9 +472,9 @@ ns.Widgets = ns.Widgets || {};
       });
       _printCarousel(_profilesArray);
     });
-    var _scrollDownBtn = $('<div>').append($('<a>').append($('<span>'))).addClass('scrollDown-arrow');
+    // var _scrollDownBtn = $('<div>').append($('<a>').append($('<span>'))).addClass('scrollDown-arrow');
     _entryContent.append(_logoContainer, _signUpBtn,  _cardsContainer);
-    _entryDiv.append(_entryContentContainer.append(_entryContent, _scrollDownBtn));
+    _entryDiv.append(_entryContentContainer.append(_entryContent));
     
     var _profilesDiv = $('<div>').addClass('actionDiv');
     var _titleProfiles = $('<h4>').html(Pard.t.text('welcome.profilesSection.title')).addClass('title-welcome');
@@ -605,12 +605,16 @@ ns.Widgets = ns.Widgets || {};
     _servicesDiv.append(_logoServices, _textLogo, _servicesInfoContainer);
 
     _section.append(
-      _entryDiv,
-      _profilesDiv,
-      _actionDiv,  
-      _littleTextDiv, 
-      _servicesDiv
+      _entryDiv.addClass('page-section').attr('id','i'),
+      _profilesDiv.addClass('page-section').attr('id','p'),
+      _actionDiv.addClass('page-section').attr('id','c'),  
+      _littleTextDiv.addClass('page-section').attr('id','in'), 
+      _servicesDiv.addClass('page-section').attr('id','s')
     );
+
+    $(document).ready(function(){
+      $('div.page-section').scrollIndicatorBullets();
+    });   
 
     return _section;
 

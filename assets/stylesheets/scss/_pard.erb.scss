@@ -3385,7 +3385,7 @@ Multiple select
 
 
 /* ===========================
-ANIMATED SCROLL DOWN
+ANIMATED SCROLL DOWN ARROW
 ========================== */
 
 .scrollDown-arrow a {
@@ -3433,4 +3433,27 @@ ANIMATED SCROLL DOWN
   }
 }
 
+/* =========================
+SCROLL INDICATOR BULLETS
+========================== */
 
+.bullet-item-link.active{
+  background: none;
+  .circle{
+    background: $grey-4 !important;
+  }
+}
+
+.bullet-item-link.active:hover{
+  background: none;
+}
+
+
+.bullet-item-link .circle{
+  border: 1px solid $grey-4 !important;
+  background: rgba(111,111,111,.1)  !important;
+}
+
+.bullet-item-link .circle:hover{
+    background:rgba(111,111,111,.2)  !important;
+  }

@@ -100,7 +100,7 @@ ns.Widgets = ns.Widgets || {};
 						'font-weight':'bold'
 					})
 
-				var _scrollDownBtn = $('<div>').append($('<a>').append($('<span>'))).addClass('scrollDown-arrow');
+				// var _scrollDownBtn = $('<div>').append($('<a>').append($('<span>'))).addClass('scrollDown-arrow');
 
 				_initialSection
 				.addClass('initialSectionServicePage')
@@ -113,27 +113,13 @@ ns.Widgets = ns.Widgets || {};
 								$('<p>').html('Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta.'),
 								_price,
 								_video,
-								_contactBtn,
-								_scrollDownBtn
+								_contactBtn
 							)
 						.css({
 							'text-align':'center'
 						})					
 				);
-		
-	
-		// var _ibackground = $('<div>').addClass('background-initialSection');
-		
-		// var _iText = $('<div>')
-		// 	.addClass('text-initialSection')
-		// 	.append(
-		// 		$('<h3>').text('Together is better'),
-		// 		// $('<p>').html('Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento.<br> Gestiona con una potente herramienta todos los datos, nunca ha sido igual.'),
-		// 		$('<p>').html(Pard.t.text('services.mex'))
-		// 		// _contactBtn
-		// 	);
-		// _ibackground.append(_iText);
-		
+				
 
 		var serviceText = function(num, title, text){
 			var _num = $('<span>').text(num).addClass('numberText')
@@ -289,17 +275,24 @@ ns.Widgets = ns.Widgets || {};
 			);
 
 		_main.append(
-			_initialSection,
+			_initialSection.addClass('page-section').attr('id','i'),
 			_eventSection.render().addClass('eventSectionServicePage'),
 			_callSection.render().addClass('callSectionServicePage'),
-			_managerSection.render().addClass('managerSectionServicePage'),
+			_managerSection.render().addClass('managerSectionServicePage '),
 			_programSection.render().addClass('programSectionServicePage'),
 			_publishSection.render().addClass('publishSectionServicePage'),
 			_mobileSection,
-			_otherSection.render().addClass('otherSectionServicePage'),
-			_priceSection,
-			_finalSection
+			_otherSection.render().addClass('otherSectionServicePage page-section').attr('id','o'),
+			_priceSection.addClass('page-section').attr('id','p'),
+			_finalSection.addClass('page-section').attr('id','p')
 		)
+
+		$(document).ready(function(){
+      var _scrollIndicator = $('.page-section').scrollIndicatorBullets();
+      console.log($('div.page-section'))
+    });   
+
+
 		return _main;
 	}
 
