@@ -113,11 +113,11 @@ module Repos
       def delete_profile profile_id
         @@events_collection.update_many({"artists.profile_id": profile_id},
           {
-            "$set": {'artists.$.own': 'true'}
+            "$set": {'artists.$.own': true}
           })
         @@events_collection.update_many({"spaces.profile_id": profile_id},
           {
-            "$set": {'spaces.$.own': 'true'}
+            "$set": {'spaces.$.own': true}
           })
       end
 

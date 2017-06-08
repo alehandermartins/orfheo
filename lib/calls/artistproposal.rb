@@ -39,8 +39,7 @@ class ArtistProposal
 
   def own
     raise Pard::Invalid::UnexistingProposal if artist.blank?
-    proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == params[:proposal_id]}
-    return true unless proposal[:own].blank?
+    return true unless artist[:own].blank?
   end
 
   def delete

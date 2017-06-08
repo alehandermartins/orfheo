@@ -41,6 +41,14 @@
         var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
         _innerContainer.append(_popupContent);
         _popupWidget.append(_outerContainer.append(_innerContainer));
+
+        _popupWidget.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+          }
+        });
+
+
         $('body').append(_popupWidget);
       });
 

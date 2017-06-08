@@ -230,6 +230,14 @@
           _content.remove();
           _popup.close();
         }); 
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _content.remove();
+            _popup.close();
+          }
+        });
+
         _content.append(_message.render());
         _popup.open();
       }

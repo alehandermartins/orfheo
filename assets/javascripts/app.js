@@ -210,7 +210,10 @@ Pard.EventManager = function(event_id){
 
 
 Pard.Event = function(the_event, status){
-
+  if (the_event.slug){
+    var _dir = /event/+the_event.slug;
+    window.history.replaceState( {} , the_event.slug, _dir );
+  }
   Pard.UserStatus['status'] = status;
   Pard.CachedProgram = the_event.program;
   Pard.CachedEvent = the_event;

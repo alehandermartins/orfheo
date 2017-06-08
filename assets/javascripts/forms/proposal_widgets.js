@@ -78,6 +78,7 @@
 
   ns.Widgets.PrintMyProposal = function(proposal, form, proposalType, closepopup){
     var _createdWidget = $('<div>');
+    console.log(proposal)
     _createdWidget.append(Pard.Widgets.PrintProposal(proposal, form).render());
     if (form.blocks['conditions'] && form.blocks['conditions']['helptext']){
       var _conditionsLink = '<a href="' + form.blocks['conditions']['helptext'] + '" target="_blank">' + Pard.t.text('proposal.terms') + '</a>';
@@ -158,7 +159,7 @@
   ns.Widgets.PrintProposal = function(proposal, form){
     var form = $.extend(true, {}, form);  
     var _createdWidget = $('<div>');
-    var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability', 'children', 'cache'];
+    var _orfheoFields = ['name', 'phone','email','subcategory', 'address', 'title','short_description','description','duration','availability', 'children', 'cache'];
     var sentProposalField = Pard.Widgets.sentProposalField(proposal, form);
     _orfheoFields.forEach(function(field){
       if (proposal[field]){
@@ -169,7 +170,7 @@
         _proposalField['label'] = _proposalField['label'] || form.blocks[field]['label'];
         _proposalField['input'] = _proposalField['input'] || '';
         _fieldFormLabel.append(_proposalField['label'],':');
-        _fieldFormText.append(' ',_proposalField['text']).addClass('proposalText-'+_proposalField['input']);
+        _fieldFormText.append(' ',_proposalField['text']).addClass('proposalText-'+_proposalField['input']+' proposal-text');
         var _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
         _createdWidget.append(_fieldForm);
       }
@@ -203,7 +204,7 @@
     for(var field in proposal){
       if ($.isNumeric(field)){
         var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
-        var _fieldFormText = $('<span>').addClass('proposalText-'+ form.blocks[field]['input']);
+        var _fieldFormText = $('<span>').addClass('proposalText-'+ form.blocks[field]['input']+' proposal-text');
         var _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
         _createdWidget.append(_fieldForm);
         _textLabel = form.blocks[field]['label'];          
@@ -220,7 +221,7 @@
           _fieldFormText.append(_text);
         }
         else if(form.blocks[field]['input'] == 'Links'){
-          var _text = $('<div>').append($('<a>').text(proposal[field]).attr({'href': 'http://' + proposal[field], 'target': '_blank'}));
+          var _text = $('<div>').append($('<a>').text(proposal[field]).attr({'href': proposal[field], 'target': '_blank'}));
           _fieldFormText.append(_text);
         }
         else if(form.blocks[field]['input'] == 'TextAreaEnriched'){
@@ -283,10 +284,18 @@
       if (proposal.cache) return proposal.cache.value;
     }
 
+    var _name = function(){
+      var _nameText;
+      if (!proposal.own) _nameText = $('<a>').append(proposal['name']).attr({'href':'/profile?id='+proposal.profile_id,'target':'_blank'});
+      else _nameText = proposal['name']; 
+      var _nameEl = $('<span>').append(_nameText, $('<div>').append(Pard.t.text('proposal.form.category', {category: form.label})).css('font-size','0.875rem'))
+      return _nameEl;
+    }
+
     return {
       'name': {
         label: Pard.t.text('proposal.sentBy'),
-        text: $('<span>').append($('<strong>').append(proposal['name']), $('<div>').append(Pard.t.text('proposal.form.category', {category: form.label})).css('font-size','0.875rem'))
+        text: _name()
       },
       'email': {
         label: Pard.t.text('dictionary.email').capitalize(),
@@ -305,7 +314,7 @@
       },
       'title': {
         label: Pard.t.text('dictionary.title').capitalize(),
-        input: 'TextAreaEnriched'
+        input: 'Inputtext'
       },
       'description': {
         label: Pard.t.text('dictionary.description').capitalize(),
@@ -313,7 +322,7 @@
       },
       'short_description': {
         label: Pard.t.text('dictionary.short_description').capitalize(),
-        input: 'Inputtext'
+        input: 'TextAreaEnriched'
       },
       'subcategory': {
         label: Pard.t.text('dictionary.category').capitalize(),

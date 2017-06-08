@@ -165,8 +165,8 @@ module Services
           artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
           space = event[:spaces].select{ |host| host[:profile_id] == performance[:host_id]}.first
           order = event[:spaces].index{ |host| host[:profile_id] == performance[:host_id] }
-          performance[:participant_id] = performance[:participant_id] + '-own' if artist[:own] == true
-          performance[:host_id] = performance[:host_id] + '-own' if space[:own] == true
+          performance[:participant_id] = performance[:participant_id] + '-own' if (artist[:own] == 'true' || artist[:own] == true)
+          performance[:host_id] = performance[:host_id] + '-own' if (space[:own] == 'true' || space[:own] == true)
           performance.merge! host_name: space[:name]
           performance.merge! address: space[:address]
           performance.merge! host_category: space[:category]

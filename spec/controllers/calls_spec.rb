@@ -175,7 +175,6 @@ describe CallsController do
         '2': nil,
         form_category: 'music',
         subcategory: 'music',
-        own: true
       }]
     }
   }
@@ -196,7 +195,8 @@ describe CallsController do
       phone: phone,
       form_category: 'music',
       subcategory: 'music',
-      type: 'artist'
+      type: 'artist',
+      own: true
     }
   }
   

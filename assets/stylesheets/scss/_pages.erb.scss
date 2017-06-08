@@ -165,7 +165,7 @@ main.mainWelcomePage, main.mainUserPage{
     margin: 0;
   }
   .welcomeSection-container{
-    padding: 4rem 1rem;
+    padding: 4rem 0;
   }
 }
 
@@ -327,6 +327,11 @@ main.mainWelcomePage, main.mainUserPage{
       text-align: left;
     }
   }
+}
+
+
+#profilesSection:target{
+  display: block !important;
 }
 
 .card-container-WelcomePage{
@@ -1047,8 +1052,23 @@ Profile Section
 
 
 .myProposals-field-label{
-  font-size: $almostNormalSize;
+  /* font-size: $almostNormalSize; */
   display: inline-block;
+  font-weight: bold;
+  margin-right: .5rem ;
+}
+
+.postData-container .myProposals-field-label{
+  font-size: $almostNormalSize;
+  font-weight: normal;
+}
+
+.colorLine-myProposal-popup{
+  border: 5px solid;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
 }
 
 .postData-container{
@@ -1082,6 +1102,7 @@ Profile Section
   }
 }
 
+
 .trash-icon-delete{
   font-size: $almostNormalSize;
   vertical-align: -0.2rem;
@@ -1089,8 +1110,8 @@ Profile Section
 }
 
 .actionButton-container-popup{
-  text-align: right;
-  margin-bottom: -1.5rem;
+  margin: 1rem 0;
+  margin-left: -.7rem;
   .element-actionButton{
     display: inline-block;
     padding: 0 0.7rem;
@@ -2001,11 +2022,20 @@ div.dataTables_wrapper div.dataTables_filter{
 }
 
 .utilBox{
-  border: 1px solid;
+  border: 1px solid  $grey-3;
   @include border-radius($element-border-radius);
   position: relative;
   padding: 1rem;
   margin-bottom: .75rem;
+  border-left: 4px solid $grey-3;
+}
+
+.arrow-util-box{
+  position: absolute;
+  left: -.6rem;
+  font-size: 1.6rem;
+  top: 1rem;
+  color:  $grey-3;
 }
 
 .utilTitle{
@@ -2023,6 +2053,21 @@ div.dataTables_wrapper div.dataTables_filter{
     padding: 0;
     margin: 1rem 0;
   }
+}
+
+.slug-input{
+  height: 2rem;
+  width: 18rem;
+  display: inline-block;
+  margin-left: .5rem;
+}
+
+.newLinkTxt{
+  display: block;
+  /* font-weight: bold'; */
+  text-align: center;
+  color: #3885ff;
+  font-size: large;
 }
 
 .white-list-box{
@@ -2604,7 +2649,7 @@ tr.permanent-row-program-table-call-manager td{
   }
   span.material-icons{
     font-size: 1.1rem;
-    margin: 3px 0 0 0;
+    margin: 2px 0 0 0;
     @include border-radius($element-border-radius);
   }
   li.is-dropdown-submenu-item{
@@ -3564,14 +3609,22 @@ SERVICES PAGE
   background: white;
   .isContainer {
     height: 100%;
-    padding: 3rem 0;
+    padding: 6rem 0;
   }
   position: relative;
   @include breakpoint (medium down){
     height: 30rem;
     .isContainer {
-      padding: 0;
+      padding: 2.5rem;
     }
+  }
+}
+
+.price-initialSectionServicePage{
+  font-weight: bold;
+  font-size: 1.5rem;
+  @include breakpoint (small down){
+    display: block;
   }
 }
 
@@ -3583,6 +3636,8 @@ SERVICES PAGE
   width: 61.5rem;
   height: 28rem;
   margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   @include breakpoint (medium down){
     @include horizontal-center;
     position: relative;
@@ -3870,6 +3925,55 @@ SERVICES PAGE
   }
 }
 
+.video-service-page{
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: large;
+  span{
+    vertical-align: middle;
+  }
+  /* padding-top: 5rem; */
+}
+
+.video-popup-container{
+  position: relative;
+  text-align: center;
+  clear: both;
+  display: block;
+  /* background-image: url(<%= image_path 'initial_demo_video_img.png' %>); */
+  background-repeat: no-repeat;
+  background-position: center; 
+  @include breakpoint(small down){
+    margin-right: 2rem;
+    margin-bottom: 50vh;
+  }
+}
+
+
+.video-container {
+width: 853px;
+height: 480px;
+display: inline-block;
+@include breakpoint (medium down){
+  width: 95vw;
+  height: 53.45vw;
+  @include horizontal-center;
+}
+}
+
+.close-video-popup.close-button{
+  color: $grey-2;
+}
+.close-video-popup.close-button:hover{
+  color: $grey-1;
+}
+
+.call-icon-service-page{
+  .material-icons{
+    font-size: 2.8rem;
+  }
+}
+ 
 
 /*===============================================
 CROWDFUNDING
@@ -3891,3 +3995,5 @@ CROWDFUNDING
 .placeholderSelect{
   color:  #987b7d;
 }
+
+

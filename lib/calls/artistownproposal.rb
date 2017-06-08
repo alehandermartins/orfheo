@@ -61,7 +61,6 @@ class ArtistOwnProposal
       category: params[:category],
       subcategory: params[:subcategory],
       form_category: params[:form_category],
-      own: true
     }
     form.each{ |field, content| proposal[field] = params[field]}
     proposal

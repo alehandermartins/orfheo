@@ -83,7 +83,7 @@
       space: Pard.t.text('manager.proposals.spaceProposals')
     }
 
-    _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(displayer);
+    _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(displayer, 'allProposals');
     _tablesContainer['allProposals'] = $('<div>').append(_dataTables['allProposals'].table);
     _subcategorySelector['allProposals'] = $('<select>');
 
@@ -97,7 +97,7 @@
         _selectorOptions[type] = [];
         for (var formcat in forms[type]){
           _tablesContainer[formcat] = $('<div>');
-          _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat].blocks, displayer);
+          _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat].blocks, displayer, formcat);
           _selectorOptions[type].push({id:formcat, text: forms[type][formcat].label})
           _tablesContainer[formcat].append(_dataTables[formcat].table).hide();
           _proposalsNumber[formcat] = 0;
@@ -125,6 +125,7 @@
       var profile = artists[profile_id].artist;
       if (profile.own) _own['artists'][profile_id] = the_event.artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
+        if (profile.own) proposal.own = profile.own;
         _proposalsNumber[proposal.form_category] = _proposalsNumber[proposal.form_category] + 1;
         _dataTables[proposal.form_category].addRow(proposal, profile);
         _dataTables['allProposals'].addRow('artist', proposal, profile);
@@ -403,6 +404,7 @@
               }
             }
           });
+          Pard.Widgets.InfoTab[typeTable] = _dataTables[typeTable].DataTable;   
         }
         else{
           _dataTables[typeTable].DataTable = _dataTables[typeTable].table.DataTable({
@@ -560,6 +562,7 @@
               }
             }
           });
+          Pard.Widgets.InfoTab[typeTable] = _dataTables[typeTable].DataTable;        
         }
       });
     });
@@ -570,6 +573,7 @@
       },
       addArtist: function(artist){
         var proposal = artist.proposals[0];
+        proposal.own = artist.own;
         _dataTables[proposal.form_category].DataTable.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
         _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
         _proposalsNumber[proposal.form_category] += 1;
@@ -621,6 +625,7 @@
       modifyArtist: function(artist){
         var profile = the_event.artists[artist.profile_id].artist;
         profile.proposals.forEach(function(proposal){
+          proposal.own = artist.own;
           _dataTables['allProposals'].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();
           _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, profile)).order([2,'desc']).draw();
           _dataTables[proposal.form_category].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();

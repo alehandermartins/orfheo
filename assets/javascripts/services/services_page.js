@@ -15,12 +15,51 @@ ns.Widgets = ns.Widgets || {};
 		var _publishSection = Pard.Widgets.ServiceSection();
 		var _mobileSection = $('<section>').addClass('serviceSection mobileSectionServicePage');
 		var _otherSection = Pard.Widgets.ServiceSection();
-		var _videoSection = $('<section>').addClass('serviceSection videoSectionServicePage');
+		// var _videoSection = $('<section>').addClass('serviceSection videoSectionServicePage');
 		var _priceSection = $('<section>').addClass('serviceSection priceSectionServicePage');
 		var _finalSection = $('<section>').addClass('finalSectionServicePage');
 
-		var _ibackground = $('<div>').addClass('background-initialSection');
-		var _contactBtn = $('<button>')
+		var _videoIframe = $('<div>')
+			.addClass('video-container')
+			.append(
+				$('<iframe>')
+					.attr({
+						'src':'https://www.youtube.com/embed/cdOdDsXSBRw?rel=0&amp;showinfo=0;&autoplay=1',
+						'frameborder':'0',
+						'allowfullscreen':''
+					})
+					.css({
+						'width':'inherit',
+						'height':'inherit'
+					})
+				)
+
+		var _popupVideoContainer = $('<div>').addClass('very-fast reveal full');
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>')
+   	.addClass('video-popup-container'); 
+
+    var _videoPopup = new Foundation.Reveal(_popupVideoContainer, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out',multipleOpened:true});
+
+    var _closeBtn = $('<button>')
+	   	.addClass('close-button small-1 close-video-popup')
+	   	.attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'})
+	   	.append($('<span>').attr('aria-hidden', true).html('&times;'))
+	    .click(function(){
+	      _videoPopup.close();
+	      _videoIframe.remove();
+	    });
+    
+    $(document).keyup(function(e) {
+	  	if (e.keyCode === 27) _closeBtn.click();   // esc
+		});
+
+    _outerContainer.append(_container.append(_popupContent, _closeBtn));
+    _popupVideoContainer.append(_outerContainer);
+    $('body').append(_popupVideoContainer);
+			
+			var _contactBtn = $('<button>')
 			.attr('type','button')
 			.text(Pard.t.text('services.contact'))
 			.addClass('contactButton-ServicesPage')
@@ -35,21 +74,52 @@ ns.Widgets = ns.Widgets || {};
         });
         _contactPopup.open();
 			});
-		var _iText = $('<div>')
-			.addClass('text-initialSection')
-			.append(
-				$('<h3>').text('Together is better'),
-				// $('<p>').html('Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento.<br> Gestiona con una potente herramienta todos los datos, nunca ha sido igual.'),
-				$('<p>').html(Pard.t.text('services.mex')),
-				_contactBtn
-			);
-		_ibackground.append(_iText);
-		_initialSection
-			.addClass('initialSectionServicePage')
-			.append(
-				$('<div>').addClass('pard-grid isContainer')
-					.append(_ibackground)
-			);
+			var _video = $('<div>')
+				.append(
+					// $('<p>').html(' ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta. <br>'),
+					$('<button>')
+						.append(
+							$('<span>').text('Mira el vídeo demo').css('margin-right','.5rem'),
+							Pard.Widgets.IconManager('play_circle').render()
+						)
+						.addClass('abutton')
+						.attr({
+							'type':'button'
+						})
+				)
+				.addClass('video-service-page')
+				.click(function(){
+     			_popupContent.append(_videoIframe);
+					_videoPopup.open(); 	
+				});
+				var _offerPrice = $('<span>').text('14,90 €/mes').addClass('price-initialSectionServicePage');
+				var _price = $('<p>').append('Precio: <del style="font-size:14px; margin:0 .1rem 0 1rem"> 59,90 €/mes </del>',_offerPrice).css({'margin':'1rem 0 2rem 0'});
+				var _iTitle = $('<h3>')
+					.text('Event Manager')
+					.css({
+						'font-weight':'bold'
+					})
+
+				// var _scrollDownBtn = $('<div>').append($('<a>').append($('<span>'))).addClass('scrollDown-arrow');
+
+				_initialSection
+				.addClass('initialSectionServicePage')
+				.append(
+					$('<div>')
+						.addClass('pard-grid isContainer')
+						.append(
+								$('<div>').append(Pard.Widgets.IconManager('tools').render()).addClass('call-icon-service-page'),
+								_iTitle,
+								$('<p>').html('Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta.'),
+								_price,
+								_video,
+								_contactBtn
+							)
+						.css({
+							'text-align':'center'
+						})					
+				);
+				
 
 		var serviceText = function(num, title, text){
 			var _num = $('<span>').text(num).addClass('numberText')
@@ -161,6 +231,7 @@ ns.Widgets = ns.Widgets || {};
 		var _oRight = $('<div>').append(_oRSign, _oRTitle, _oRText).addClass('otherTextContainer');
 		_otherSection.appendRight(_oRight);
 
+
 		var _contactPriceBtn = $('<button>')
 			.attr('type','button')
 			.text(Pard.t.text('services.contact'))
@@ -204,18 +275,23 @@ ns.Widgets = ns.Widgets || {};
 			);
 
 		_main.append(
-			_initialSection,
+			_initialSection.addClass('page-section').attr('id','i'),
 			_eventSection.render().addClass('eventSectionServicePage'),
 			_callSection.render().addClass('callSectionServicePage'),
-			_managerSection.render().addClass('managerSectionServicePage'),
+			_managerSection.render().addClass('managerSectionServicePage '),
 			_programSection.render().addClass('programSectionServicePage'),
 			_publishSection.render().addClass('publishSectionServicePage'),
 			_mobileSection,
-			_otherSection.render().addClass('otherSectionServicePage'),
-			// _videoSection,
-			_priceSection,
-			_finalSection
+			_otherSection.render().addClass('otherSectionServicePage page-section').attr('id','o'),
+			_priceSection.addClass('page-section').attr('id','p'),
+			_finalSection.addClass('page-section').attr('id','p')
 		)
+
+		$(document).ready(function(){
+      var _scrollIndicator = $('.page-section').scrollIndicatorBullets();
+    });   
+
+
 		return _main;
 	}
 

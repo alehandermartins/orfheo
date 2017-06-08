@@ -105,7 +105,7 @@
       termsAndConditions:{
         title: "General conditions",
         date:"Last updated: February 2017",
-        part1:'<p> <strong>Welcome!</strong></p><p> <strong>Orfheo is based on a principle: we can do more things together than separately.</strong></p><p>It is people like you who make it possible for this place not only to exist, but also to grow and thrive.</br>These general conditions explain the service and the relationship between users, rights and reciprocal responsibilities.</br> <strong>Being part of orfheo is free</strong> and by doing so you are accepting these general conditions.</p>',
+        part1:'<p> <strong>Welcome!</strong></p><p> <strong>Orfheo is based on a principle: we can do more things together than separately.</strong></p><p>It is people like you who make it possible for this place not only to exist, but also to grow and thrive.</br>These general conditions explain the service and the relationship between users, rights and reciprocal responsibilities.</p><p> <strong>Being part of orfheo is free</strong> and by doing so you are accepting these general conditions.</p>',
         subtitle2: "General principles:",
         subtitle3: "We commit to:",
         mex3: "<p><ul><li>Describe how your information can be used and/or shared in these general conditions. </li><li> Use reasonable measures to keep your sensitive information safe.</li> <li>Let the information that you decide to share flow in the community.</li> <li>Promote values ​​such as solidarity, a sense of community, transversality, equity, respect and harmony with the environment. </li><li> Respect and defend the community of orfheo. </li><li> Listen and welcome any kind of suggestion or constructive criticism.</li></ul></p>",

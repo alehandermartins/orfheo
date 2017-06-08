@@ -387,19 +387,18 @@
       }
     });
 
-    Pard.Bus.on('drag', function(performance){
-      if(_artistsBlock.hasClass('is-active')){
-        _artistsBlock.toggle('slide', {direction: 'right'}, 500);
-        // _artistsBlock.removeClass('is-active');
-      }
-    });
+    // Pard.Bus.on('drag', function(performance){
+    //   if(_artistsBlock.hasClass('is-active')){
+    //     _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+    //   }
+    // });
 
-    Pard.Bus.on('stop', function(performance){
-      if(_artistsBlock.hasClass('is-active')){
-        _artistsBlock.toggle('slide', {direction: 'right'}, 500);
-      }
-        // _artistsBlock.addClass('is-active');
-    });
+    // Pard.Bus.on('stop', function(performance){
+    //   console.log('stop')
+    //   if(_artistsBlock.hasClass('is-active')){
+    //     _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+    //   }
+    // });
 
     Pard.Bus.on('detachPerformance', function(performance){
       the_event.spaces[performance.host_id].deletePerformance(performance);
@@ -483,9 +482,7 @@
       var _titleTextLong;
 
       _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
-      var _performaceTitlePopup = $('<span>').click(function(){
-        displayer.displayProposal(_proposal, 'artist');
-      }).addClass('performanceManagerTitle');
+      var _performaceTitlePopup = $('<span>');
 
       _titleText.on('click', function(){
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','99');
@@ -493,9 +490,12 @@
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
-        _performaceTitlePopup.text(_name).click(function(){
-          displayer.displayProposal(_proposal, 'artist');
-        }).addClass('performanceManagerTitle');
+        _performaceTitlePopup
+          .text(_name)
+          .click(function(){
+              displayer.displayProposal(_proposal, 'artist');
+            })
+          .addClass('performanceManagerTitle');
         var _message = Pard.Widgets.PopupContent(_performaceTitlePopup, manager(true));
         _message.setCallback(function(){
           _popup.close();          
@@ -503,6 +503,16 @@
             _content.remove();
           },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
       });
 
@@ -534,6 +544,7 @@
               Pard.Bus.trigger(data.event, data.model);
             });
           }
+          Pard.Bus.trigger('stop', performance);
         }
       });
 
@@ -931,6 +942,16 @@
             _content.remove();
           },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
       });
 
@@ -964,6 +985,7 @@
               Pard.Bus.trigger(data.event, data.model);
             });
           }
+          Pard.Bus.trigger('stop', performance);
         }
       });
         
@@ -1566,6 +1588,16 @@
             _content.remove();
           },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
         _popup.open();
       });
@@ -1584,6 +1616,16 @@
             _content.remove();
           },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
         _popup.open();
       });
@@ -1603,6 +1645,16 @@
               _content.remove()            
             },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
         _popup.open();
       });
@@ -2066,7 +2118,7 @@
       var _btn = $('<button>')
         .attr({'type':'button', 'title':Pard.t.text('manager.program.menu.helper')})
         .append(
-          Pard.Widgets.IconManager('tools').render()
+          Pard.Widgets.IconManager('menu').render()
         );
       var _iconDropdownMenu = $('<li>').append(
         _btn

@@ -156,6 +156,13 @@ ns.Widgets = ns.Widgets || {};
         })
       );
 
+     _content.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          _contactPopup.close();
+        }
+      })
+
+
     var _servicesPopup;
     var _servicesInfo;
     var _servicesOrfheo = $('<li>').append($('<a>').text(Pard.t.text('footer.services'))

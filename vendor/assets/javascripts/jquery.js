@@ -39,4 +39,7 @@
 
 // = require trumbowyg.min
 
+// = require jquery.waypoints.min
+// = require jquery.scrollindicatorbullets.min
 
+// = require URI

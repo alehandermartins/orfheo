@@ -129,7 +129,7 @@ ns.Widgets = ns.Widgets || {};
               Pard.Widgets.CreateCard(profile).render()
                 .addClass('position-profileCard-login')
                 .attr({
-                  target: '_blank'
+                  // target: '_blank'
                 })
             )
         );
@@ -164,7 +164,7 @@ ns.Widgets = ns.Widgets || {};
                         $('<div>').addClass('card-container-WelcomePage')
                           .append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')
                           .attr({
-                            target: '_blank'
+                            // target: '_blank'
                           })
                         )
                       );
@@ -361,7 +361,7 @@ ns.Widgets = ns.Widgets || {};
                   $('<div>').addClass('card-container-WelcomePage')
                     .append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')
                     .attr({
-                      target: '_blank'
+                      // target: '_blank'
                     })
                   )
                 );
@@ -404,10 +404,9 @@ ns.Widgets = ns.Widgets || {};
   }
 
 
-
   ns.Widgets.WelcomeSection = function(){
 
-    var _section = $('<section>').addClass('welcomeSection-layout');
+    var _section = $('<div>');
 
     var _entryDiv = $('<div>').addClass('entryDiv');
     var _entryContentContainer = $('<div>').addClass('welcomeSection-container');
@@ -449,7 +448,7 @@ ns.Widgets = ns.Widgets || {};
         if (index == 0){
           _cardCont.addClass('cardSelected slick-center')
           _profileCard.attr({
-              target: '_blank'
+              // target: '_blank'
             });
         }
         else if (index == 1 || index == 11) _cardCont.addClass('slick-active');
@@ -472,6 +471,7 @@ ns.Widgets = ns.Widgets || {};
       });
       _printCarousel(_profilesArray);
     });
+    // var _scrollDownBtn = $('<div>').append($('<a>').append($('<span>'))).addClass('scrollDown-arrow');
     _entryContent.append(_logoContainer, _signUpBtn,  _cardsContainer);
     _entryDiv.append(_entryContentContainer.append(_entryContent));
     
@@ -500,7 +500,6 @@ ns.Widgets = ns.Widgets || {};
     var _profileTypeBox = $('<div>').append(_artist,_space,_organization).addClass('profileTypeBox-welcomePage');;
     _profilesContainer.append(_titleProfiles, _profileTypeBox, _profilesBtnContainer);
     _profilesDiv.append(_profilesContainer);
-
 
 
     var _actionDiv = $('<div>').addClass('actionDiv');
@@ -546,22 +545,24 @@ ns.Widgets = ns.Widgets || {};
       })
       .css('margin-top','2rem')
       .addClass('callText-WelcomePage');
-    var _littleTextDiv= $('<div>').addClass('littleTextDiv')
-      .append(
-        $('<div>').append(
-          _titleLittleText, 
-          _littleText, 
-          _callLittleText)
-        .addClass('welcomeSection-container')
-      );
-
+    // var _ibackground = $('<div>').addClass('background-initialSection');
+    var _littleTextcontent = $('<div>')
+          .addClass('pard-grid isContainer')
+          .append(
+      $('<div>').append(
+        _titleLittleText, 
+        _littleText, 
+        _callLittleText)
+      .addClass('welcomeSection-container')
+    );
+    var _littleTextDiv= $('<div>').append(_littleTextcontent).addClass('littleTextDiv');
 
 
     var _servicesDiv = $('<div>').addClass('servicesDiv');
     var _logoServices = $('<div>').addClass('logo-services');
     var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
     var _callService = $('<div>').addClass('i-container');
-    var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('proposals').render().addClass('servicesWelcome-icon'));
+    var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('tools').render().addClass('servicesWelcome-icon'));
     var _callTitle = $('<h4>').text(Pard.t.text('welcome.servicesSection.subtitle1'));
     var _callTxt = $('<p>').html(Pard.t.text('welcome.servicesSection.section1'));
     _callService.append($('<div>').append(_iconCallService, _callTitle, _callTxt).addClass('callServices-innerCont'));
@@ -602,10 +603,10 @@ ns.Widgets = ns.Widgets || {};
 
     _section.append(
       _entryDiv,
-      _profilesDiv,
-      _actionDiv,  
-      _littleTextDiv, 
-      _servicesDiv
+      _profilesDiv.addClass('page-section').attr('id','p'),
+      _actionDiv.addClass('page-section').attr('id','c'),  
+      _littleTextDiv.addClass('page-section').attr('id','in'), 
+      _servicesDiv.addClass('page-section').attr('id','s')
     );
 
     return _section;

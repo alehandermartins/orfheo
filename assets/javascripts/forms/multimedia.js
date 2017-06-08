@@ -162,6 +162,12 @@
           _popup.close();
         });
 
+        _createdWidget.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+          }
+        })
+
         var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
 
         _innerContainer.append(_popupContent);

@@ -121,6 +121,21 @@ a.profileCard:hover{
     height: 100%;
 }
 
+.strikediag {
+  display: inline-block;
+  position: relative;
+}
+.strikediag::before {
+  content: '';
+  position: absolute;
+  left: -0.1em;
+  right: -0.1em;
+  top: 0.38em;
+  bottom: 0.38em;
+  background: linear-gradient(to left top, transparent 45.5%, currentColor 47.5%, currentColor 52.5%, transparent 54.5%);
+  pointer-events: none;
+}
+
 .innerWrapperDiv{
   width:100vw;
   @include breakpoint(medium down){
@@ -139,8 +154,16 @@ a.profileCard:hover{
   border:1px solid red !important;
 }
 
+.warningText{
+  color: red;  
+}
+
 .available{
   border:1px solid lime !important;
+}
+
+.availableText{
+  /* color:  lime; */
 }
 
 .checkBox-warning{
@@ -197,7 +220,7 @@ Grid and Bar
   }
 
   .displayNone-for-large {
-      display: none;
+      display: none !important;
   }
 
   .off-canvas-content{
@@ -353,6 +376,14 @@ BUTTONS
   }
 button{
    outline: none;
+}
+
+.abutton{
+  color: #3885ff;
+}
+
+.abutton:hover{ 
+  color: rgba(56, 133, 255, 0.8);
 }
 
 .submit-button{
@@ -547,6 +578,17 @@ button{
   color: black;
 }
 
+/* .call-manager-icon-btn{
+  color: white;
+    background: black;
+    padding: 0 !important;
+    height: 22px;
+    width: 35px;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+} */
+
 .links-accepted-caller{
   position: absolute;
   right: 2rem;
@@ -577,7 +619,7 @@ button{
 .confirm-delete-btn, .cancel-delete-btn{
   font-size: $almostNormalSize;
   float: right;
-  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .yes-no-button-container{
@@ -628,8 +670,17 @@ button{
   color: white !important;
   text-align: center;
   .material-icons{
-    font-size: 22px;
+    font-size: 1.1rem;
+    padding: .2rem;
   }
+  /* .copyBtn{
+    font-weight: bold;
+  } */
+}
+
+.copyBtn{
+  position: absolute;
+  right: 0rem;
 }
 
 .dowloadQR-btn{
@@ -909,6 +960,73 @@ a.navigation-btn-callPage{
 
 .footer-languages-btn:hover {
   color: $grey-3;
+}
+
+.leftBtn-listProposal, .rightBtn-listProposal, .leftBtn-listProgramSpace, .rightBtn-listProgramSpace{
+  position: fixed;
+  top: 50vh;
+  z-index: 9;
+  color: white;
+  .material-icons{
+    font-size: 2.2rem;
+    position: absolute;
+    top: 3px;
+    left: 2px;
+  }
+  @include border-radius(50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(0,0,0,.4);
+  cursor: pointer;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.leftBtn-listProposal:hover, .rightBtn-listProposal:hover, .rightBtn-listProgramSpace:hover, .leftBtn-listProgramSpace:hover{
+  background: rgba(0, 0, 0, .2);
+}
+
+.rightBtn-listProposal{
+  right: -moz-calc(50vw - 24rem);
+  right: -webkit-calc(50vw - 24rem);
+  right: calc(50vw - 24rem);
+}
+
+.leftBtn-listProposal{
+  right: -moz-calc(50vw + 22.5rem);
+  right: -webkit-calc(50vw + 22.5rem);
+  right: calc(50vw + 22.5rem);
+}
+
+.rightBtn-listProgramSpace{
+  right: 1rem;
+}
+
+.leftBtn-listProgramSpace{
+  left:  1rem;
+}
+
+.back-button{
+  color: #2199e8;
+  font-size: $smallSize;
+  span{
+    vertical-align: middle;
+  }
+  .material-icons{
+    font-size: 1.1rem;
+  }
+  position:absolute;
+  right:0;
+}
+
+.back-button:hover{
+  color: #3885ff;
 }
 
 /*===============================================
@@ -2378,7 +2496,7 @@ button.footer-text-link:hover{
 
 .subtitle-project-info{
   font-weight: bold;
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   margin-bottom: 1rem;
 }
 
@@ -2932,6 +3050,7 @@ body.is-reveal-open{
 
 .space-program-popup-call-manager{
   width: 1024px;
+  max-width: 1024px;
   background: white;
   @include horizontal-center;
   padding: 1.5rem;
@@ -3072,6 +3191,16 @@ span .select2-dropdown{
   @include border-radius($element-border-radius);
 }
 
+span .select2-selection{
+   -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+     -khtml-user-select: none; /* Konqueror */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
 
 /*===============================================
 COLOR PICKER
@@ -3164,6 +3293,18 @@ TOOLTIP
   z-index: 9999;
 }
 
+.orfheo-tooltip-success{
+  @include border-radius($element-border-radius);
+  background: $grey-4;
+  color:  white;
+  border: none;
+  font-size: $smallSize;
+  padding: 0.2rem 0.5rem;
+  margin-top: 0;
+  position: fixed;
+  z-index: 9999;
+}
+
 /*====================================== 
 Cockies
 ========================================*/
@@ -3240,3 +3381,79 @@ Multiple select
 .ms-parent{
   width: 100% !important;
 } 
+
+
+
+/* ===========================
+ANIMATED SCROLL DOWN ARROW
+========================== */
+
+.scrollDown-arrow a {
+  padding-top: 70px;
+}
+.scrollDown-arrow a span {
+  position: fixed;
+  bottom: 4rem;
+  right: 2%;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  border-left: 1px solid #000;
+  border-bottom: 1px solid #000;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-animation: sdb05 1.5s infinite;
+  animation: sdb05 1.5s infinite;
+  box-sizing: border-box;
+}
+@-webkit-keyframes sdb05 {
+  0% {
+    -webkit-transform: rotate(-45deg) translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: rotate(-45deg) translate(-20px, 20px);
+    opacity: 0;
+  }
+}
+@keyframes sdb05 {
+  0% {
+    transform: rotate(-45deg) translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-45deg) translate(-20px, 20px);
+    opacity: 0;
+  }
+}
+
+/* =========================
+SCROLL INDICATOR BULLETS
+========================== */
+
+.bullet-item-link.active{
+  background: none;
+  .circle{
+    background: $grey-4 !important;
+  }
+}
+
+.bullet-item-link.active:hover{
+  background: none;
+}
+
+
+.bullet-item-link .circle{
+  border: 1px solid $grey-4 !important;
+  background: rgba(111,111,111,.1)  !important;
+}
+
+.bullet-item-link .circle:hover{
+    background:rgba(111,111,111,.2)  !important;
+  }

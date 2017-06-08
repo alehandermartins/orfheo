@@ -411,7 +411,6 @@
   }
 
   ns.Widgets.EventCard = function(event, owner){
-    console.log(event)
     var lang = Pard.Options.language();
     var _card = $('<div>').addClass('eventCard')
       .css({
@@ -425,7 +424,7 @@
       .append($('<h6>').append(_eName.text()))
       .attr({
         'href':'/event?id='+ event.event_id,
-        target: '_blank'
+        // target: '_blank'
       });
     
     var _imgContainer = $('<div>').addClass('imgContainer-eventCard');

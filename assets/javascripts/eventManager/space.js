@@ -286,21 +286,25 @@
     var SpaceDropdownMenu = function(){
 
       var _menu = $('<ul>').addClass('menu');
-      var _profileLink = $('<li>');
-      var _profileCaller = $('<a>').attr({
-        target: 'blank',
-        href: '/profile?id=' + space.profile_id
-      }).text(Pard.t.text('dictionary.profile').capitalize());
+      
+      if(!space.own){
+        var _profileLink = $('<li>');
+        var _profileCaller = $('<a>').attr({
+          target: 'blank',
+          href: '/profile?id=' + space.profile_id
+        }).text(Pard.t.text('dictionary.profile').capitalize());
+        _profileLink.append(_profileCaller);
+        _menu.append(_profileLink);
+      }
 
       var _programLink = $('<li>');
       var _programCaller = $('<a>').attr('href','#/').text(Pard.t.text('dictionary.program').capitalize());
       _programCaller.on('click', function(){
-        displayer.displaySpaceProgram(space.profile_id);
+        displayer.displaySpaceProgramList(space.profile_id);
       });
-
-      _profileLink.append(_profileCaller);
       _programLink.append(_programCaller);
-      _menu.append(_profileLink, _programLink);
+      _menu.append(_programLink);
+      
       var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _iconDropdownMenu = $('<li>').append(
         $('<a>').attr('href','#/').append(

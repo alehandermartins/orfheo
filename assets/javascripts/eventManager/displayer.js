@@ -10,10 +10,35 @@
     var _translatorSubC = Pard.UserInfo['texts']['subcategories'];
 
     var _content = $('<div>').addClass('very-fast reveal full');
-    var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
+    var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true, closeOnEsc:false});
     $(document).ready(function(){
       $('body').append(_content);
     })
+
+
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>').addClass('popup-container-full');
+    var _sectionContainer = $('<section>').addClass('popup-content');
+    var _header = $('<div>').addClass('row popup-header');
+    var _title = $('<h4>').addClass('small-11 popup-title');
+    var _callback = function(){};
+    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'})
+      .append($('<span>').html('&times;'));
+    _header.append(_title, _closeBtn);
+    _popupContent.append(_header, _sectionContainer);
+    _container.append(_popupContent)
+    _outerContainer.append(_container);
+
+    var _closePopup = function(){
+      _content.empty();
+      _sectionContainer.empty();
+      _title.empty();
+      _container.empty().append(_popupContent);
+      _outerContainer.removeClass('displayNone-for-large');
+      _popup.close();
+    }
+
 
     var _displayArtistProgram = function(profile_id){
       var artist = the_event.artists[profile_id];
@@ -34,24 +59,129 @@
         _popup.close();
         _content.empty();
       });
+
+      _content.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          _popup.close();
+          _content.empty();
+        }
+      });
+      
       _content.append(_message.render());
       _popup.open();
     }
 
-    var _displaySpaceProgram = function(profile_id){
+    var _displaySpaceProgramList = function(profile_id){
 
+      var _spaceList = []; 
+      for (var sp in the_event.spaces){
+        _spaceList[the_event.spaces[sp].space.index] = sp; 
+      }
+
+      var _spaceIndex = the_event.spaces[profile_id].space.index;
+
+      var _leftBtn = $('<div>')
+        .append(
+          $('<div>').append(Pard.Widgets.IconManager('navigation_left').render()).css('position','relative')
+        )
+        .addClass('leftBtn-listProgramSpace')
+        .click(function(){
+          _spaceIndex = _spaceIndex - 1
+          if (_spaceIndex < 0) _spaceIndex = _spaceList.length-1; 
+         _displaySpaceProgram(_spaceList[_spaceIndex]);
+        });
+      var _rightBtn = $('<div>')
+        .append(
+          $('<div>').append(Pard.Widgets.IconManager('navigation_right').render().css('position','relative'))
+        )
+        .addClass('rightBtn-listProgramSpace')
+        .click(function(){
+          _spaceIndex = _spaceIndex + 1
+          if(_spaceIndex == _spaceList.length) _spaceIndex = 0;
+          _displaySpaceProgram(_spaceList[_spaceIndex]);        
+        });
+      _container.append(_leftBtn, _rightBtn);
+      _displaySpaceProgram(profile_id);
+
+    }
+
+
+
+    var _displaySpaceProgram = function(profile_id){
+ 
       var space = the_event.spaces[profile_id].space;
       var myprogram = the_event.spaces[profile_id].program;
 
-      var _message = Pard.Widgets.PopupContent(space.name + ' ('+Pard.UserInfo['texts'].subcategories['space'][space.subcategory]+')', Pard.Widgets.SpaceProgram(space, myprogram, the_event.artists, the_event.program), 'space-program-popup-call-manager');
-      _message.setCallback(function(){
-        _popup.close();
-        _content.empty();
+      var _tableProgram = Pard.Widgets.SpaceProgram(space, myprogram, the_event.artists, the_event.program);
+
+      _sectionContainer.empty();
+      _title.empty().append(space.name + ' ('+Pard.UserInfo['texts'].subcategories['space'][space.subcategory]+')');
+      _popupContent.addClass('space-program-popup-call-manager');
+
+      _sectionContainer.append(_tableProgram.render());
+
+      _closeBtn.click(function(){
+        _closePopup();
+        _popupContent.removeClass('space-program-popup-call-manager');
       });
-      _content.append(_message.render());
-      _popup.open();
+
+      _content.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          _closePopup();
+          _popupContent.removeClass('space-program-popup-call-manager');
+        }
+      }); 
+
+      if (!_content.html()) {
+        _content.append(_outerContainer);
+        _popup.open();
+      }  
+
     }
 
+    var _cachedList;
+
+    var _displayProposalsList = function(proposal, type, _list){
+      _cachedList = _list;
+      var _proposalIndex = _list.findIndex(function(el, index){return el.indexOf(proposal.proposal_id)>0 });
+      var _display = function(proposalIndex){
+        var _nextProposal = _list[proposalIndex].split('_');
+        var _profileId = _nextProposal[0];
+        var _proposalId = _nextProposal[1];
+        var _type = _nextProposal[2];
+        _sectionContainer.empty();
+        var _displayDict = {
+          artist: function(){_displayProposal(the_event[_type+'s'][_profileId]['proposals'][_proposalId]['proposal'], _type)},
+          space: function(){_displayProposal(the_event[_type+'s'][_profileId]['space'], _type)}
+        }
+        _displayDict[_type]();
+      };
+
+      var _leftBtn = $('<div>')
+        .append(
+          $('<div>').append(Pard.Widgets.IconManager('navigation_left').render()).css('position','relative')
+        )
+        .addClass('leftBtn-listProposal')
+        .click(function(){
+          _proposalIndex = _proposalIndex - 1
+          if (_proposalIndex < 0) _proposalIndex = _list.length-1; 
+         _display(_proposalIndex);
+        });
+      var _rightBtn = $('<div>')
+        .append(
+          $('<div>').append(Pard.Widgets.IconManager('navigation_right').render().css('position','relative'))
+        )
+        .addClass('rightBtn-listProposal')
+        .click(function(){
+          _proposalIndex = _proposalIndex + 1
+          if(_proposalIndex == _list.length) _proposalIndex = 0;
+          _display(_proposalIndex);         
+        });
+      _container.append(_leftBtn, _rightBtn);
+      _displayProposal(proposal, type);
+    }
+
+    
     var _displayProposal = function(proposal, type){
       proposal.proposal_type = type;
       var _proposal = $.extend(true, {}, proposal);
@@ -75,6 +205,17 @@
               _deleteContent.remove();
             },500);         
         });
+
+        _deleteContent.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _confirmPopup.close();
+            setTimeout(
+              function(){
+                _deleteContent.remove();
+              },500);
+          }
+        });
+
         _deleteContent.append(_message.render());
         _confirmPopup.open();
       });
@@ -111,8 +252,7 @@
               _deleteProposalBackend[type](_proposal.proposal_id, event_id, function(data){
                 deleteCallback(data);
                 spinnerDeleteProposal.stop();
-                _popup.close();
-                _content.empty();
+                _closePopup()
                 callback();
               });
             });
@@ -152,7 +292,6 @@
         space: Pard.Backend.modifySpaceProposal
       }
       _modifyProposal.click(function(){
-        _messageProposalPrintedRendered.hide();
         var _formWidget = Pard.Widgets.OwnProposalForm(form.blocks, type, _proposal.form_category, (!proposal.own));
         _formWidget.setVal(_proposal);
         if (!proposal.own) _formWidget.disableFields();
@@ -172,7 +311,6 @@
                 stopSpinner();
               }
               else{
-                _content.empty();
                 if (type == 'space') {
                   var _modifiedProposal = data.model;
                 }
@@ -183,57 +321,95 @@
                   _modifiedProposal.email = _artist.email;
                   _modifiedProposal.profile_id = _artist.profile_id;
                   _modifiedProposal.phone = _artist.phone;
+                  _modifiedProposal.own = (_artist.own == 'true');
                 }
-                _displayProposal(_modifiedProposal, type);
+                _content.empty();
+                _sectionContainer.empty();
+                _title.empty();
+                _container.empty().append(_popupContent);
+                _outerContainer.removeClass('displayNone-for-large');
+                _displayProposalsList(_modifiedProposal, type, _cachedList);
                 stopSpinner();
               }
             }
           );
         });
         var _modifyMessage = Pard.Widgets.PopupContent(eventName, _formWidget);
-        _modifyMessage.prependToContent($('<p>').text(Pard.t.text('manager.proposals.modifymex',{type: form.label})).css('margin-bottom','-0.5rem'));
+        _modifyMessage.prependToContent(
+          $('<div>').append(
+            $('<div>')
+              .append(
+                $('<button>')
+                  .attr('type','button')
+                  .append(Pard.Widgets.IconManager('navigation_left').render(), $('<span>').text(' Atrás'))
+                  .click(function(){
+                    _modifyMessageRendered.remove();
+                    _outerContainer.removeClass('displayNone-for-large');
+                  })
+                  .addClass('back-button')
+                )
+              .css({
+                'position':'relative',
+                'height':'1rem'
+              }),
+            $('<p>')
+              .text(Pard.t.text('manager.proposals.modifymex',{type: form.label}))  
+          )
+         .css('margin-bottom','-.5rem')
+        );
         _modifyMessage.appendToContent(Pard.Widgets.Button(
           Pard.t.text('dictionary.cancel').capitalize(),
           function(){
             _modifyMessageRendered.remove();
-            _messageProposalPrintedRendered.show();
+            _outerContainer.removeClass('displayNone-for-large');
           }).render()
           .addClass('cancelBtn-modifyProposalForm')
         );
         _modifyMessage.setCallback(function(){
-          _content.empty();
-          _popup.close();
+          _closePopup()
         });
         var _modifyMessageRendered = _modifyMessage.render();
         _content.append(_modifyMessageRendered);
       });
 
-      var _messageProposalPrinted = Pard.Widgets.PopupContent(eventName, _proposalPrinted);
-      _messageProposalPrinted.setCallback(function(){
-        _content.empty();
-        _popup.close();
+      _sectionContainer.append(_proposalPrinted.render());
+
+      _closeBtn.click(function(){
+        _closePopup()
       });
+
+      _content.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          _closePopup()
+        }
+      });   
 
       if (_proposal.amend){
         var _label = $('<span>').addClass('myProposals-field-label').text(Pard.t.text('dictionary.amend').capitalize() + ':').css('display', 'block');
         var _text = $('<span>').text(' ' + _proposal.amend);
         var _element = $('<div>').append($('<p>').append(_label, _text));
-        _messageProposalPrinted.appendToContent(_element);
+        _sectionContainer.append(_element);
       };
 
       var _actionBtnContainer = $('<div>').addClass('actionButton-container-popup');
       _actionBtnContainer.append($('<span>').append(_modifyProposal).addClass('element-actionButton'));
       _actionBtnContainer.append($('<span>').append(_deleteProposalCaller).addClass('element-actionButton').css({ 'border-left':'1px solid #bebebe' }));
-  
-      _messageProposalPrinted.prependToContent(_actionBtnContainer);
-      if (_proposal.own) {
-        var _warningOwnText = $('<p>').text(Pard.t.text('manager.proposals.organizerProposal'));
-        _messageProposalPrinted.prependToContent(_warningOwnText);
-      }
-      var _messageProposalPrintedRendered = _messageProposalPrinted.render();
-      _content.append(_messageProposalPrintedRendered);
+      
+      // if (_proposal.own) {
+      //   var _warningOwnText = $('<p>').text(Pard.t.text('manager.proposals.organizerProposal')).css('margin-top','1.5rem');
+      //   _sectionContainer.prepend(_warningOwnText);
+      // }
 
-      _popup.open();
+      _sectionContainer.prepend(_actionBtnContainer);
+      
+      if (!_content.html()) {
+        _title.append(
+          $('<div>').addClass('colorLine-myProposal-popup').css('border-color',the_event.color),
+          $('<span>').text(eventName).css({'font-weight': 'bold', 'margin-top': '1rem', 'display':'block'})
+        );
+        _content.append(_outerContainer);
+        _popup.open();
+      }
     }
 
     var _createOwnProposal = function(type, participants){
@@ -260,6 +436,7 @@
         if (type == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
         else if (type == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
       };
+
       _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(forms[type], type, participants);
       _createOwnProposalWidget.setSend(_sendProposal);
       var _message = Pard.Widgets.PopupContent(Pard.t.text('manager.proposals.createTitle', {type: Pard.t.text('dictionary.' + type).capitalize()}), _createOwnProposalWidget);
@@ -270,6 +447,17 @@
              _contentCreateOwn.remove();
           },500);
       });
+
+      _contentCreateOwn.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          _popup.close();
+          setTimeout(
+            function(){
+               _contentCreateOwn.remove();
+            },500);
+          }
+      });   
+
       _contentCreateOwn.append(_message.render());
       _closePopupForm = function(){
         _popup.close();
@@ -283,8 +471,10 @@
 
     return{
       displayProposal: _displayProposal,
+      displayProposalsList: _displayProposalsList,
       displayArtistProgram: _displayArtistProgram,
       displaySpaceProgram: _displaySpaceProgram,
+      displaySpaceProgramList :_displaySpaceProgramList,
       createOwnProposal: _createOwnProposal,
       close: function(){
         _popup.close();

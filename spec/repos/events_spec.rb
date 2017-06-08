@@ -462,15 +462,15 @@ describe Repos::Events do
     it 'turns artist profiles into own if profile is deleted' do
       Repos::Events.delete_profile profile_id
       saved_entry = @db['events'].find(event_id: event_id).map{|event| event}
-      expect(saved_entry[0]['artists'].first).to include({"own"=> "true"})
+      expect(saved_entry[0]['artists'].first).to include({"own"=> true})
     end
 
     it 'turns space profiles into own if profile is deleted' do
       Repos::Events.add_artist event_id, space_artist
       Repos::Events.delete_profile space_profile_id
       saved_entry = @db['events'].find(event_id: event_id).map{|event| event}
-      expect(saved_entry[0]['spaces'].first).to include({"own"=> "true"})
-      expect(saved_entry[0]['artists'][1]).to include({"own"=> "true"})
+      expect(saved_entry[0]['spaces'].first).to include({"own"=> true})
+      expect(saved_entry[0]['artists'][1]).to include({"own"=> true})
     end
   end
 

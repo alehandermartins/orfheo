@@ -105,7 +105,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _titleContact = $('<h5>').text(Pard.t.text('contact.contactTab.title'));  
     _contactCont.append(_titleContact);
-    var _textContact = $('<p>').html('<strong> orfheo </strong></br>Calle nuestra señora de la asunción, 4b</br>Valencia (' +  (Pard.t.text('contact.contactTab.country')) + ') 46020</br> (0034) 633 753 471</br> <a href="mailto:info@orfheo.org">info@orfheo.org</a></br><a href="https://www.facebook.com/orfheo.org", target="_blank">Facebook</a>').css({'text-align':'center'});
+    var _textContact = $('<p>').html('<strong> orfheo </strong></br>Calle nuestra señora de la asunción, 4b</br>Valencia (' +  (Pard.t.text('contact.contactTab.country')) + ') 46020</br> (0034) 744 605 573</br> <a href="mailto:info@orfheo.org">info@orfheo.org</a></br><a href="https://www.facebook.com/orfheo.org", target="_blank">Facebook</a>').css({'text-align':'center'});
 
     _contactCont.append(_textContact);
 
@@ -201,9 +201,9 @@ ns.Widgets = ns.Widgets || {};
     var _lastModify = $('<div>').append($('<p>').text(Pard.t.text('popup.termsAndConditions.date')).addClass('conditions-lastModify')).addClass('conditions-par');
     var _part1 = $('<div>').html(Pard.t.text('popup.termsAndConditions.part1')).addClass('conditions-par');
 
-    var _subtitle2 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle2')).addClass('subtitle-conditions');
-    var _mex2  = Pard.t.text('popup.termsAndConditions.subtitle2');
-    var _part2 = $('<div>').append(_subtitle2, _mex2).addClass('conditions-par');
+    // var _subtitle2 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle2')).addClass('subtitle-conditions');
+    // var _mex2  = Pard.t.text('popup.termsAndConditions.subtitle2');
+    // var _part2 = $('<div>').append( _mex2).addClass('conditions-par');
 
     var _subtitle3 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle3')).addClass('subtitle-conditions');
     var _mex3  = Pard.t.text('popup.termsAndConditions.mex3');
@@ -238,7 +238,7 @@ ns.Widgets = ns.Widgets || {};
       .addClass('close-button-bottom-popup')
       .append(_closeBtn.render());
 
-    _createdWidget.append(_image, _web, _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part5_5, _part_coockies, _part6, _subtitle7, _finalMex, _closeBtnContainer);
+    _createdWidget.append(_image, _web, _title, _lastModify, _part1, _part3, _part4, _part5, _part5_5, _part_coockies, _part6, _subtitle7, _finalMex, _closeBtnContainer);
 
     return{
       render: function(){
@@ -315,15 +315,16 @@ ns.Widgets = ns.Widgets || {};
     var _web = $('<p>').text('orfheo.org').addClass('orfheo-web-popup');
     var _baseline = $('<h6>').html(Pard.t.text('project.baseline') + '<br>').addClass('orfheo-baseline-popup');
     var _message = $('<div>').html(Pard.t.text('project.mex1'));
-    var _part1 = $('<div>').append(_message);
-    var _subtitle = $('<h5>').text(Pard.t.text('project.subtitle')).addClass('subtitle-project-info');
-    var _part2 = $('<div>').append(_subtitle).addClass('part2-message-project-info');
+     var _subtitle = $('<p>').text(Pard.t.text('project.subtitle')).addClass('subtitle-project-info');
+    var _part1 = $('<div>').append(_message, _subtitle);
+   
+    var _part2 = $('<div>').addClass('part2-message-project-info');
     var _list1 = $('<div>').html(Pard.t.text('project.list1'));
     var _list2 = $('<div>').html(Pard.t.text('project.list2'));
     var _list3 = $('<div>').html(Pard.t.text('project.list3'));
     var _list4 = $('<div>').html(Pard.t.text('project.list4'));
     var _list5 = $('<div>').html(Pard.t.text('project.list5'));
-    var _list6 = $('<div>').html(Pard.t.text('project.list6'));
+    // var _list6 = $('<div>').html(Pard.t.text('project.list6'));
     var _list7 = $('<div>').html(Pard.t.text('project.list7'));
     // var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
     var _closeBtn = Pard.Widgets.Button(Pard.t.text('dictionary.close'), function(){popup.close()})
@@ -331,7 +332,7 @@ ns.Widgets = ns.Widgets || {};
       .addClass('close-button-bottom-popup')
       .append(_closeBtn.render());
 
-    _part2.append(_list1, _list2, _list3, _list4, _list5, _list6, _list7).hide();
+    _part2.append(_list1, _list2, _list3, _list4, _list5,  _list7).hide();
 
     var _readMore = $('<a>').text(Pard.t.text('project.more'))
       .css({

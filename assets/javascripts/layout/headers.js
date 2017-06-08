@@ -6,14 +6,16 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.NavHeader = function(){
 
-    var _createdWidget = $('<header>').addClass('orfheoHeader');
+    var _createdWidget = $('<header>').addClass('orfheoHeader').addClass('page-section').attr('id','i');
     var _innerHeaderContainer = $('<div>').addClass('innerWrapperDiv');
     var _upperContainer = $('<div>').addClass('upperContainerHeader fixed'); 
     var _upperContent = $('<div>').addClass('pard-grid contentHeader');
     var _lowerContainer = $('<div>').addClass('navBarHeader');
     var _navBarContainer = $('<div>').addClass('navBarContainer black');
-    var _navBar = $('<div>').addClass('pard-grid');    
+    var _navBar = $('<div>').addClass('pard-grid');
 
+    var _uri = new URI(document.location);
+    
     var _showHide = function(id_){
       if (_lowerContainer.hasClass('fixedNavBar')){
         _lowerContainer.removeClass('fixedNavBar');
@@ -68,7 +70,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
     var _navMenu = $('<ul>').addClass('navMenuHeader');
-    var _welcomeBtnText = $('<button>').attr('type','button')
+    var _welcomeBtnText = $('<a>').attr('href','#')
     var _welcomeBtn = $('<li>')
       .append(_welcomeBtnText)
       .click(function(){
@@ -77,11 +79,12 @@ ns.Widgets = ns.Widgets || {};
         _welcomeBtn.addClass('selected');
         _showHide('welcomeSection');
         if (_profilesSection) _profilesSection.deactivate();
-      })
-      .addClass('selected');
+        $('#scroll-indicator-bullets').show();
+      });
+      // .addClass('selected');
     var _profilesSection;
-    var _profilesBtn = $('<li>')
-      .append($('<button>').text(Pard.t.text('header.profiles')).attr('type','button'))
+    var _profilesBtn = $('<li>').attr('id','profilesBtn')
+      .append($('<a>').text(Pard.t.text('header.profiles')).attr({'href':'#profiles'}))
       .one('click', function(){
         _profilesSection = Pard.Widgets.ProfilesWelcomeSection();
         $('#profilesSection').append(_profilesSection.render());
@@ -92,32 +95,35 @@ ns.Widgets = ns.Widgets || {};
         _profilesBtn.addClass('selected');
         _showHide('profilesSection');
         _profilesSection.activate();
+        $('#scroll-indicator-bullets').hide();
       });
       // .css('width','52px');
-    var _eventsBtn = $('<li>')
-      .append($('<button>').text(Pard.t.text('header.events')).attr('type','button'))
+    var _eventsBtn = $('<li>').attr('id','eventsBtn')
+      .append($('<a>').text(Pard.t.text('header.events')).attr('href','#events'))
       .one('click', function(){
         $('#eventsSection').append(Pard.Widgets.EventsWelcomeSection().render());
       })
       .click(function(){
+        $('.selected').removeClass('selected');
         $(window).scrollTop(0); 
         $('.selected').removeClass('selected');
         _eventsBtn.addClass('selected');
         _showHide('eventsSection');
         if (_profilesSection) _profilesSection.deactivate();
+        $('#scroll-indicator-bullets').hide();
       });
       // .css('width','58px');
-    var _newsBtn = $('<li>')
-      .append($('<button>').text(Pard.t.text('header.news')).attr('type','button'))
+    var _newsBtn = $('<li>').attr('id','newsBtn')
+      .append($('<a>').text(Pard.t.text('header.news')).attr('href','#news'))
      .one('click', function(){
         $('#newsSection').append(Pard.Widgets.NewsWelcomeSection().render());
       })
       .click(function(){
-        $(window).scrollTop(0); 
         $('.selected').removeClass('selected');
         _newsBtn.addClass('selected');
         _showHide('newsSection');
         if (_profilesSection) _profilesSection.deactivate();
+        $('#scroll-indicator-bullets').hide();
       });
       // .css('width','79px');
     _navMenuContainer.append(_navMenu.append(_welcomeBtn, _profilesBtn, _eventsBtn, _newsBtn));
@@ -146,6 +152,12 @@ ns.Widgets = ns.Widgets || {};
     _createdWidget.append(_innerHeaderContainer);
 
     if (Pard.UserStatus['status'] == 'outsider'){
+      _welcomeBtn.one('click',function(){
+        $('#welcomeSection').append(Pard.Widgets.WelcomeSection());
+        $(document).ready(function(){
+          $('.page-section').scrollIndicatorBullets();
+        });   
+      })
       _welcomeBtnText.text('Welcome');
       _rightContainer.addClass('loginContainer');
       var _loginInputs = $('<div>')
@@ -186,6 +198,18 @@ ns.Widgets = ns.Widgets || {};
 
     _upperContent.append(_rightContainer);
 
+    var _arraySections = ['#profiles','#events','#news'];
+
+    if ($.inArray(_uri.hash(), _arraySections)>-1){
+      $(document).ready(function(){
+        $(_uri.hash()+'Btn').trigger('click');
+      })
+    }
+    else{
+      $(document).ready(function(){
+        _welcomeBtn.trigger('click');
+      })
+    }
 
     return {
       render : function(){
