@@ -3679,7 +3679,6 @@ SERVICES PAGE
 .text-pricingSection{
   width: 100%;
   text-align: center;
-  padding-top: 7rem;
   h3 {
     font-weight: bold;
   }
@@ -3690,6 +3689,34 @@ SERVICES PAGE
   @include breakpoint (medium down){
     padding: 0;
   }
+}
+
+.price-pack-servicePage{
+  display: inline-block;
+  vertical-align: top;
+  width: 15rem;
+  border: 1px solid;
+  text-align: left;
+  margin-bottom: 2rem;
+  @include border-radius($element-border-radius);
+  .title-price-pack{
+    text-align: center;
+    border-bottom: 1px solid ;
+  }
+  .list-price-pack ul{
+    list-style: none;
+    /* margin-left: 0; */
+    padding-left: 1em;
+    text-indent: -1em;
+  }
+}
+
+.plus-pack-servicePage{
+  width: 15rem;
+  display: inline-block;
+  margin-left: 4rem ;
+  text-align: left;
+  vertical-align: top;
 }
 
 .eventImageServicePage{
@@ -3897,6 +3924,7 @@ SERVICES PAGE
 
 .priceSectionServicePage{
   background: #fce1e1;
+  padding: 4rem 0;
   .pard-grid{
     position: relative;
   }

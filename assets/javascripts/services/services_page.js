@@ -16,7 +16,7 @@ ns.Widgets = ns.Widgets || {};
 		var _mobileSection = $('<section>').addClass('serviceSection mobileSectionServicePage');
 		var _otherSection = Pard.Widgets.ServiceSection();
 		// var _videoSection = $('<section>').addClass('serviceSection videoSectionServicePage');
-		var _priceSection = $('<section>').addClass('serviceSection priceSectionServicePage');
+		var _priceSection = $('<section>').addClass('priceSectionServicePage');
 		var _finalSection = $('<section>').addClass('finalSectionServicePage');
 
 		var _videoIframe = $('<div>')
@@ -246,16 +246,29 @@ ns.Widgets = ns.Widgets || {};
         });
         _contactPopup.open();
 			});
+		var _pack_E_manager = $('<div>').addClass('price-pack-servicePage');
+		var _titlePackContainer = $('<div>').addClass('title-price-pack');
+		var _listPackContainer = $('<div>').addClass('list-price-pack');
+		var _titlePack = $('<span>').text('e-Manager');
+		var _listItems = 'prova/ola/now';
+		var _listPack = $('<ul>');
+		_listItems.split('/').forEach(function(txt){
+			_listPack.append($('<li>').append(Pard.Widgets.IconManager('done').render(), $('<span>').text(txt)));
+			});
+		var _pricePackContainer = $('<div>').append('14,90 €/mes');
+		_listPackContainer.append(_listPack);
+		_titlePackContainer.append(_titlePack);
+		_pack_E_manager.append(_titlePackContainer, _pricePackContainer, _listPackContainer);
+		var _plusPack = $('<div>').addClass('plus-pack-servicePage');
+		_plusPack.append('+');
 		var _priceText = $('<div>')
 			.addClass('text-pricingSection')
 			.append(
 				$('<h3>').text(Pard.t.text('services.price.title')),
 				$('<p>').html(Pard.t.text('services.price.mex')),
-				// $('<h4>')
-				// 	.append(
-				// 	"A partir de 29 €",
-				// 	$('<span>').text(' /mes').addClass('month'))
-				// 	.addClass('pricingText'),
+				$('<div>').append(_pack_E_manager, _plusPack),
+				$('<p>').html('Precio sin IVA y a pagar desde el día de lanzamiento de la convocatoria hasta el termine del evento.'),
+				$('<p>').html('Contáctanos para poder probar el manager de forma gratuita y sin compromiso.'),
 				_contactPriceBtn
 			);
 		_priceSection
