@@ -35,6 +35,7 @@
         _caller
           .one('click', function(){
             _proposalPopup = Pard.Widgets.Popup();
+            _proposalPopup.setContentClass('proposal-popup')
           })
           .on('click', function(){
             if (!(_forms[proposal.call_id])) {
@@ -78,7 +79,6 @@
 
   ns.Widgets.PrintMyProposal = function(proposal, form, proposalType, closepopup){
     var _createdWidget = $('<div>');
-    console.log(proposal)
     _createdWidget.append(Pard.Widgets.PrintProposal(proposal, form).render());
     if (form.blocks['conditions'] && form.blocks['conditions']['helptext']){
       var _conditionsLink = '<a href="' + form.blocks['conditions']['helptext'] + '" target="_blank">' + Pard.t.text('proposal.terms') + '</a>';
@@ -159,6 +159,7 @@
   ns.Widgets.PrintProposal = function(proposal, form){
     var form = $.extend(true, {}, form);  
     var _createdWidget = $('<div>');
+    _createdWidget.append($('<div>').addClass('colorLine-myProposal-popup').css('border-color', proposal.event_color));
     var _orfheoFields = ['name', 'phone','email','subcategory', 'address', 'title','short_description','description','duration','availability', 'children', 'cache'];
     var sentProposalField = Pard.Widgets.sentProposalField(proposal, form);
     _orfheoFields.forEach(function(field){

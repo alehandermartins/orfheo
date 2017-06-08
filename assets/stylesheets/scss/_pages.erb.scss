@@ -1069,6 +1069,19 @@ Profile Section
   left: 0;
   top: 0;
   width: 100%;
+  @include border-radius($element-border-radius);
+}
+
+.proposal-popup{
+  .popup-header{
+    h4 {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    .close-button{
+      margin-top: 1rem;
+    }
+  }
 }
 
 .postData-container{

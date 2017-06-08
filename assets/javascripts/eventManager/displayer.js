@@ -34,7 +34,7 @@
       _content.empty();
       _sectionContainer.empty();
       _title.empty();
-      _container.empty().append(_popupContent);
+      _container.empty().append(_popupContent.removeClass('proposal-popup'));
       _outerContainer.removeClass('displayNone-for-large');
       _popup.close();
     }
@@ -184,8 +184,12 @@
     
     var _displayProposal = function(proposal, type){
       proposal.proposal_type = type;
-      var _proposal = $.extend(true, {}, proposal);
+      proposal.event_color = the_event.color;
+      _popupContent.addClass('proposal-popup');
 
+      console.log(proposal)
+
+      var _proposal = $.extend(true, {}, proposal);
       var form = forms[type][_proposal.form_category];
 
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
@@ -321,12 +325,12 @@
                   _modifiedProposal.email = _artist.email;
                   _modifiedProposal.profile_id = _artist.profile_id;
                   _modifiedProposal.phone = _artist.phone;
-                  _modifiedProposal.own = (_artist.own == 'true');
+                  _modifiedProposal.own = _artist.own;
                 }
                 _content.empty();
                 _sectionContainer.empty();
                 _title.empty();
-                _container.empty().append(_popupContent);
+                _container.empty().append(_popupContent.removeClass('proposal-popup'));
                 _outerContainer.removeClass('displayNone-for-large');
                 _displayProposalsList(_modifiedProposal, type, _cachedList);
                 stopSpinner();
@@ -403,10 +407,7 @@
       _sectionContainer.prepend(_actionBtnContainer);
       
       if (!_content.html()) {
-        _title.append(
-          $('<div>').addClass('colorLine-myProposal-popup').css('border-color',the_event.color),
-          $('<span>').text(eventName).css({'font-weight': 'bold', 'margin-top': '1rem', 'display':'block'})
-        );
+        _title.append(eventName);
         _content.append(_outerContainer);
         _popup.open();
       }

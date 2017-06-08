@@ -306,7 +306,9 @@
         return _createdWidget;
       },
       getVal: function(){
-        return _textarea.trumbowyg('html');
+        var _text = _textarea.trumbowyg('html');
+        _text = _text.replace(/style=".*?"/g,'');
+        return _text;
       },
       setVal: function(value){
         _textarea.trumbowyg('html', value);
