@@ -372,7 +372,7 @@
     },
     profile_id:{
       info: function(proposal){
-        return proposal.own ? proposal.profile_id+'_'+proposal.proposal_id+'_'+proposal.type+'_own' : proposal.profile_id+'_'+proposal.proposal_id+'_'+proposal.type+'_received';
+        return proposal.own ? proposal.profile_id+'_'+proposal.proposal_id+'_'+proposal.type+'_own' : proposal.profile_id+'_'+proposal.proposal_id+'_'+proposal.proposal_type+'_received';
       },
       label:'profile_id',
       input: 'Inputtex'

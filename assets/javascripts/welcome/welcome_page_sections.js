@@ -404,7 +404,6 @@ ns.Widgets = ns.Widgets || {};
   }
 
 
-
   ns.Widgets.WelcomeSection = function(){
 
     var _section = $('<div>');
@@ -503,7 +502,6 @@ ns.Widgets = ns.Widgets || {};
     _profilesDiv.append(_profilesContainer);
 
 
-
     var _actionDiv = $('<div>').addClass('actionDiv');
     var _actionContainer = $('<div>').addClass('welcomeSection-container');
     var _info1 = $('<div>').addClass('i-container');
@@ -560,7 +558,6 @@ ns.Widgets = ns.Widgets || {};
     var _littleTextDiv= $('<div>').append(_littleTextcontent).addClass('littleTextDiv');
 
 
-
     var _servicesDiv = $('<div>').addClass('servicesDiv');
     var _logoServices = $('<div>').addClass('logo-services');
     var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
@@ -605,7 +602,7 @@ ns.Widgets = ns.Widgets || {};
     _servicesDiv.append(_logoServices, _textLogo, _servicesInfoContainer);
 
     _section.append(
-      _entryDiv.addClass('page-section').attr('id','i'),
+      _entryDiv,
       _profilesDiv.addClass('page-section').attr('id','p'),
       _actionDiv.addClass('page-section').attr('id','c'),  
       _littleTextDiv.addClass('page-section').attr('id','in'), 

@@ -1052,8 +1052,23 @@ Profile Section
 
 
 .myProposals-field-label{
-  font-size: $almostNormalSize;
+  /* font-size: $almostNormalSize; */
   display: inline-block;
+  font-weight: bold;
+  margin-right: .5rem ;
+}
+
+.postData-container .myProposals-field-label{
+  font-size: $almostNormalSize;
+  font-weight: normal;
+}
+
+.colorLine-myProposal-popup{
+  border: 5px solid;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
 }
 
 .postData-container{
@@ -1087,6 +1102,7 @@ Profile Section
   }
 }
 
+
 .trash-icon-delete{
   font-size: $almostNormalSize;
   vertical-align: -0.2rem;
@@ -1094,8 +1110,8 @@ Profile Section
 }
 
 .actionButton-container-popup{
-  text-align: right;
-  margin-bottom: -1rem;
+  margin: 1rem 0;
+  margin-left: -.7rem;
   .element-actionButton{
     display: inline-block;
     padding: 0 0.7rem;

@@ -6,7 +6,7 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.NavHeader = function(){
 
-    var _createdWidget = $('<header>').addClass('orfheoHeader');
+    var _createdWidget = $('<header>').addClass('orfheoHeader').addClass('page-section').attr('id','i');
     var _innerHeaderContainer = $('<div>').addClass('innerWrapperDiv');
     var _upperContainer = $('<div>').addClass('upperContainerHeader fixed'); 
     var _upperContent = $('<div>').addClass('pard-grid contentHeader');
@@ -155,7 +155,7 @@ ns.Widgets = ns.Widgets || {};
       _welcomeBtn.one('click',function(){
         $('#welcomeSection').append(Pard.Widgets.WelcomeSection());
         $(document).ready(function(){
-          $('div.page-section').scrollIndicatorBullets();
+          $('.page-section').scrollIndicatorBullets();
         });   
       })
       _welcomeBtnText.text('Welcome');

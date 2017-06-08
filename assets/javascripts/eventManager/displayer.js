@@ -183,7 +183,6 @@
 
     
     var _displayProposal = function(proposal, type){
-
       proposal.proposal_type = type;
       var _proposal = $.extend(true, {}, proposal);
 
@@ -395,16 +394,19 @@
       var _actionBtnContainer = $('<div>').addClass('actionButton-container-popup');
       _actionBtnContainer.append($('<span>').append(_modifyProposal).addClass('element-actionButton'));
       _actionBtnContainer.append($('<span>').append(_deleteProposalCaller).addClass('element-actionButton').css({ 'border-left':'1px solid #bebebe' }));
-  
-      if (_proposal.own) {
-        var _warningOwnText = $('<p>').text(Pard.t.text('manager.proposals.organizerProposal')).css('margin-top','1.5rem');
-        _sectionContainer.prepend(_warningOwnText);
-      }
+      
+      // if (_proposal.own) {
+      //   var _warningOwnText = $('<p>').text(Pard.t.text('manager.proposals.organizerProposal')).css('margin-top','1.5rem');
+      //   _sectionContainer.prepend(_warningOwnText);
+      // }
 
       _sectionContainer.prepend(_actionBtnContainer);
       
       if (!_content.html()) {
-        _title.append(eventName);
+        _title.append(
+          $('<div>').addClass('colorLine-myProposal-popup').css('border-color',the_event.color),
+          $('<span>').text(eventName).css({'font-weight': 'bold', 'margin-top': '1rem', 'display':'block'})
+        );
         _content.append(_outerContainer);
         _popup.open();
       }
