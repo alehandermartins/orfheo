@@ -35,7 +35,7 @@ module Services
           performance[:participant_category] = performance[:participant_category]
           performance[:host_category] = performance[:host_category]
           performance.delete(:participant_subcategory)
-          performance.delete(:host_subcategory) 
+          performance.delete(:host_subcategory)
           performance.delete(:comments)
           performance.delete(:confirmed)
           performance.delete(:participant_proposal_id)
@@ -123,6 +123,7 @@ module Services
             proposal[:event_name] = event[:name]
             proposal[:call_id] = event[:call_id]
             proposal[:deadline] = event[:deadline]
+            proposal[:event_color] = event[:color]
           }
         }.compact.flatten
       end
@@ -138,6 +139,7 @@ module Services
           proposal[:event_name] = event[:name]
           proposal[:call_id] = event[:call_id]
           proposal[:deadline] = event[:deadline]
+          proposal[:event_color] = event[:color]
           proposal
         }.compact.flatten
       end
