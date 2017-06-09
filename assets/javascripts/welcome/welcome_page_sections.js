@@ -562,7 +562,8 @@ ns.Widgets = ns.Widgets || {};
     var _logoServices = $('<div>').addClass('logo-services');
     var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
     var _callService = $('<div>').addClass('i-container');
-    var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('tools').render().addClass('servicesWelcome-icon'));
+    var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('tools').render().addClass('servicesWelcome-icon')).css({'font-size': '3rem',
+    'padding': '.25rem 0'});
     var _callTitle = $('<h4>').text(Pard.t.text('welcome.servicesSection.subtitle1'));
     var _callTxt = $('<p>').html(Pard.t.text('welcome.servicesSection.section1'));
     _callService.append($('<div>').append(_iconCallService, _callTitle, _callTxt).addClass('callServices-innerCont'));

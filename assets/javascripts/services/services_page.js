@@ -95,7 +95,7 @@ ns.Widgets = ns.Widgets || {};
 				var _offerPrice = $('<span>').text('14,90 €/mes').addClass('price-initialSectionServicePage');
 				var _price = $('<p>').append('Precio: <del style="font-size:14px; margin:0 .1rem 0 1rem"> 59,90 €/mes </del>',_offerPrice).css({'margin':'1rem 0 2rem 0'});
 				var _iTitle = $('<h3>')
-					.text('Event Manager')
+					.text('e-Manager')
 					.css({
 						'font-weight':'bold'
 					})
@@ -246,29 +246,46 @@ ns.Widgets = ns.Widgets || {};
         });
         _contactPopup.open();
 			});
-		var _pack_E_manager = $('<div>').addClass('price-pack-servicePage');
+		var _pack_E_manager = $('<div>').addClass('price-pack-servicePage')
+			.click(function(){_contactBtn.trigger('click')});
 		var _titlePackContainer = $('<div>').addClass('title-price-pack');
 		var _listPackContainer = $('<div>').addClass('list-price-pack');
-		var _titlePack = $('<span>').text('e-Manager');
-		var _listItems = 'prova/ola/now';
+		var _titlePack = $('<h6>').text('e-Manager');
+		var _list_E_Items = 'Una entera página dedicada/Convocatoria online/Difusión a todos los usuarios/Formularios multidioma/Recibe propuestas ilimitadas/Programa cualquier actividad/Programación online interactiva/Usa orfheo como App/URL personalizable/Soporte técnico constante';
 		var _listPack = $('<ul>');
-		_listItems.split('/').forEach(function(txt){
+		_list_E_Items.split('/').forEach(function(txt){
 			_listPack.append($('<li>').append(Pard.Widgets.IconManager('done').render(), $('<span>').text(txt)));
 			});
-		var _pricePackContainer = $('<div>').append('14,90 €/mes');
+		var _pricePackContainer = $('<div>').html('<h3 style="font-weight:normal; display:inline">14,90</h3> €/mes<p style="color:#6f6f6f">Precio: <del>59,90 €/mes<del></p> <p style="text-align:center">La herramienta de gestión para grandes eventos</p>' ).addClass('price-price-pack');
+			// Lanza en orfheo la convocatoria artístico-cultural de tu evento y gestiona todos tus datos.		
 		_listPackContainer.append(_listPack);
-		_titlePackContainer.append(_titlePack);
-		_pack_E_manager.append(_titlePackContainer, _pricePackContainer, _listPackContainer);
+		_titlePackContainer.append(Pard.Widgets.IconManager('tools').render().css('font-size','20px'), _titlePack);
+		_pack_E_manager.append(
+			_titlePackContainer, 
+			$('<div>').append(
+					_pricePackContainer, 
+					_listPackContainer
+					).css({'padding':'0 1rem'})
+			);
 		var _plusPack = $('<div>').addClass('plus-pack-servicePage');
-		_plusPack.append('+');
+		var _plusTitlePack = $('<div>').append($('<h2>').append('+').css('display','inline'), ' €/mes');
+		var _plusList = $('<ul>');
+		var _list_plus_Items = 'API/Asesoría';
+		_list_plus_Items.split('/').forEach(function(txt){
+			_plusList.append($('<li>').append($('<span>').append('+').css('margin-right','.2rem'), $('<span>').text(txt)))
+			});
+		_plusPack.append(
+			_plusTitlePack, 
+			$('<div>').append(_plusList).addClass('plus-list-servicePack'),
+			$('<div>').html('<p>Precios sin IVA y a pagar desde el día de lanzamiento de la convocatoria hasta el termine del evento.</p><p> Contáctanos para probar el manager de forma gratuita y sin compromiso.</p>').addClass('plus-additionalInfo-servicePack'),
+			);
 		var _priceText = $('<div>')
 			.addClass('text-pricingSection')
 			.append(
 				$('<h3>').text(Pard.t.text('services.price.title')),
-				$('<p>').html(Pard.t.text('services.price.mex')),
+				$('<p>').html('<span style = "color:black; margin: -0.5rem 0px 4rem 0; display: block;"><b>Contáctanos para crear y gestionar tu evento en orfheo.</b></span>'),
+				// .html(Pard.t.text('services.price.mex')),
 				$('<div>').append(_pack_E_manager, _plusPack),
-				$('<p>').html('Precio sin IVA y a pagar desde el día de lanzamiento de la convocatoria hasta el termine del evento.'),
-				$('<p>').html('Contáctanos para poder probar el manager de forma gratuita y sin compromiso.'),
 				_contactPriceBtn
 			);
 		_priceSection
@@ -289,15 +306,15 @@ ns.Widgets = ns.Widgets || {};
 
 		_main.append(
 			_initialSection.addClass('page-section').attr('id','i'),
-			_eventSection.render().addClass('eventSectionServicePage'),
+			_eventSection.render().addClass('eventSectionServicePage  page-section').attr('id','s'),
 			_callSection.render().addClass('callSectionServicePage'),
 			_managerSection.render().addClass('managerSectionServicePage '),
 			_programSection.render().addClass('programSectionServicePage'),
 			_publishSection.render().addClass('publishSectionServicePage'),
 			_mobileSection,
-			_otherSection.render().addClass('otherSectionServicePage page-section').attr('id','o'),
+			_otherSection.render().addClass('otherSectionServicePage'),
 			_priceSection.addClass('page-section').attr('id','p'),
-			_finalSection.addClass('page-section').attr('id','p')
+			_finalSection.addClass('page-section').attr('id','f')
 		)
 
 		$(document).ready(function(){

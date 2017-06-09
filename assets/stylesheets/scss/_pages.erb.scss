@@ -3619,7 +3619,8 @@ SERVICES PAGE
 
 .initialSectionServicePage{
   height: 35rem;
-  background: white;
+  background: $grey-1;
+  margin-bottom: .4rem ;
   .isContainer {
     height: 100%;
     padding: 6rem 0;
@@ -3692,22 +3693,52 @@ SERVICES PAGE
 }
 
 .price-pack-servicePage{
+  cursor: pointer;
+  margin-left:7rem ;
+  background: white;
   display: inline-block;
   vertical-align: top;
   width: 15rem;
-  border: 1px solid;
+  border: 1px solid $grey-2;
   text-align: left;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   @include border-radius($element-border-radius);
   .title-price-pack{
     text-align: center;
-    border-bottom: 1px solid ;
+    /* border-bottom: 1px solid; */
+    background: $green-pard;
+    color: white;
+    padding: 1rem 0 .5rem 0;
   }
-  .list-price-pack ul{
-    list-style: none;
-    /* margin-left: 0; */
-    padding-left: 1em;
-    text-indent: -1em;
+  .list-price-pack{
+    margin-top: 1rem;
+    font-size: $almostNormalSize;
+    color: $grey-4;
+    ul{
+      list-style: none;
+      /* padding-left: 1rem; */
+      text-indent: -.6rem;
+      .material-icons{
+        color:  $green-pard;
+        font-size: 1rem;
+        margin-right: .2rem;
+      }
+      li{
+        margin-bottom: .5rem;
+        margin-left: -.1rem;
+        font-size: $smallSize;
+      }
+    }
+  }
+  .price-price-pack{
+    margin-top: 1rem;
+    text-align: center;
+    color:  $green-pard;
+    p{
+      color: black;
+      font-size: $almostNormalSize;
+      margin-bottom: 1rem;
+    }
   }
 }
 
@@ -3717,6 +3748,23 @@ SERVICES PAGE
   margin-left: 4rem ;
   text-align: left;
   vertical-align: top;
+  .plus-list-servicePack{
+    margin-bottom: 3rem ;
+    ul{
+      list-style: none;
+      padding-left: .6rem;
+      text-indent: -.6rem;
+      margin-left: 0;
+    }
+  }
+  .plus-additionalInfo-servicePack{
+    font-size: $smallSize;
+    color: $grey-4;
+    p{
+      border-top:1px solid $grey-2;
+      padding-top: 1rem;
+    }
+  }
 }
 
 .eventImageServicePage{
@@ -3923,7 +3971,8 @@ SERVICES PAGE
 }
 
 .priceSectionServicePage{
-  background: #fce1e1;
+  background: $grey-1;
+  margin: .4rem 0;
   padding: 4rem 0;
   .pard-grid{
     position: relative;
