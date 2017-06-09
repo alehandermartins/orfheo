@@ -3513,6 +3513,11 @@ SERVICES PAGE
 .mainServicesPage{
   padding: 0;
   width: 100vw;
+  margin-top: -.7rem;
+}
+
+.mainServicesPage.outsider-main{
+  margin-top: 3rem;
 }
 
 .serviceSection{
