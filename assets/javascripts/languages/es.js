@@ -768,8 +768,9 @@
       }
     },
     services: {
-      mex: 'Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.',
-      // <br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta. <br> <b>El precio no es un límite: lo decidimos juntos</b>. ',
+      mex: '​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta.',
+      pricing:'Precio: <del style="font-size:14px; margin:0 .1rem 0 1rem"> 59,90 €/mes </del>',
+      watchVideo:'Mira el vídeo demo',
       contact: 'Contáctanos',
       section1: {
         title: 'Expande tu evento más allá de un evento',

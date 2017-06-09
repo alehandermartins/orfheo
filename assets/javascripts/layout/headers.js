@@ -129,7 +129,7 @@ ns.Widgets = ns.Widgets || {};
     _navMenuContainer.append(_navMenu.append(_welcomeBtn, _profilesBtn, _eventsBtn, _newsBtn));
 
     var _callBtn = $('<div>')
-      .append($('<a>').attr('href','/services').text(Pard.t.text('header.callToAction')))
+      .append($('<a>').attr('href','/services').append(Pard.Widgets.IconManager('open_call').render().css('margin-right','.5rem'),Pard.t.text('header.callToAction')))
       .addClass('makeCallBtn');
 
     var _semicircleBottomContainer =  $('<div>').addClass('semiCircleHeaderBottom-container');

@@ -496,9 +496,9 @@
       },
       servicesSection: {
         logo: 'S e r v i c e s',
-        subtitle1: 'Management platform',
-        subtitle2: 'Creative consultancy',
-        subtitle3: 'API connection',
+        subtitle1: 'e-Manager',
+        subtitle2: 'Counseling',
+        subtitle3: 'API',
         section1: 'Create an event,</br> launch a call, </br>use the management tool </br>and publish an interactive program.',
         section2: 'Make the best out of your project, </br> feed your community </br> and explore new creative strategies during the process.',
         section3: 'Forward all your event data to your web page or mobile application, using it as it suits you and keeping everything updated.',
@@ -521,9 +521,9 @@
         tab: 'Services',
         title: 'What does orfheo offer you?',
         mex1: 'Orfheo aims to create and give value to cultural communities and the encounters that already exist or can be generated in real life. Therefore, the possibilities we offer are mainly focused on supporting, promoting and facilitating the creation, diffusion and above all <strong> on the management of large participative events </strong>. Specifically, with orfheo you can take advantage of the following services:',
-        subtitle2: 'Management platform:',
+        subtitle2: 'e-Manager:',
         mex2: 'A powerful innovative web tool that allows you to launch your call and manage all relative data with extreme ease and simplicity. You can consult, organize, filter and modify received proposals as well as create new ones to insert into your programming. Making the program of your event will be as easy as dragging cards inside a calendar and taking out mailing lists to contact artists and spaces will cost you a single click. You can publish online an interactive program, updateable at any time, that perfectly adapts to any mobile device, functioning as the perfect guide for your audience.',
-        subtitle3: 'Creative counseling:',
+        subtitle3: 'Counseling:',
         mex3: 'The orfheo team has professionals with the expertise of organizing and managing large participatory events. You will be able to take advantage of a constant monitoring throughout the process of preparation of your event and discover new creative strategies focused on making the best out of your cultural community.',
         subtitle4: 'API Connection:',
         mex4: 'The API service allows you to receive and use data related to your events and calls in your mobile application or website. Any changes you make in orfheo will automatically update all your connected platforms. You can have all your information always updated, where and when you want.',
@@ -767,7 +767,9 @@
       }
     },
     services: {
-      mex: 'Unite people, create a network with your cultural community and connect with others. <br> Launch the call of your artistic-cultural event through orfheo and <br> manage all your data with a new and powerful tool.<b><br>The price is not a limit: we decide it together.</b>',
+      mex: 'Launch the call of your artistic-cultural event through orfheo and <br> manage all your data with a new and powerful tool.',
+      pricing: "Price: <del style='font-size:14px; margin:0 .1rem 0 1rem'> 59,90 €/mes </del>",
+      watchVideo:'Watch a demo video',
       contact: 'Contact us',
       section1: {
         title: 'Expand your event beyond an event',
@@ -798,7 +800,7 @@
         mex: 'The API service allows you to receive your events related data in all your applications. Any changes you make in orfheo will update your web and mobile app automatically. You will be able to have all your information always updated, where and when you want.'
       },
       counseling: {
-        title: 'Creative Counseling Service for your project',
+        title: 'Counseling for your project',
         mex: 'You will be able to enjoy constant monitoring throughout the process of preparation of your event and discover new creative strategies focused on getting the best out of your project.'
       },
       price: {

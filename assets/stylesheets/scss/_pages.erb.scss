@@ -3740,6 +3740,9 @@ SERVICES PAGE
       margin-bottom: 1rem;
     }
   }
+  @include breakpoint(medium down){
+    margin-left: 0;
+  }
 }
 
 .plus-pack-servicePage{
@@ -3764,6 +3767,9 @@ SERVICES PAGE
       border-top:1px solid $grey-2;
       padding-top: 1rem;
     }
+  }
+  @include breakpoint(medium down){
+    margin-bottom: 1rem;
   }
 }
 

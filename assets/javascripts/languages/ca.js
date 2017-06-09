@@ -497,9 +497,9 @@
       },
       servicesSection: {
         logo: 'R e c u r s o s',
-        subtitle1: 'Plataforma de gestió',
-        subtitle2: 'Assessoria creativa',
-        subtitle3: 'Connexió API',
+        subtitle1: 'e-Manager',
+        subtitle2: 'Assessoria',
+        subtitle3: 'API',
         section1: 'Crea un event,</br> llança una convocatòria, </br>utilitza l\'eina de gestió </br>i publica una programació interactiva.',
         section2: 'Trau el millor del teu projecte,</br> alimenta la teua comunitat </br>i explora noves estratègies creatives durant el procés.',
         section3: 'Reenvia les dades del teu event a la teua pàgina web o aplicació mòbil i utilitza-los sempre actualizats com millor et convinga.',
@@ -523,9 +523,9 @@
         tab: 'Serveis',
         title: "Què t'ofereix orfheo?",
         mex1: 'orfheo preten crear i donar valor a les comunitats culturals i les trobades que realment existeixen o poden generar-se en la vida real. És per això que les posibilitats que oferim es centren principalment en recolçar, impulsar i facilitar la creació, difusió i sobretot <strong> la gestió de processos i grans events participatius</strong>. Específicament, amb orfheo pots aprofitar els següents serveis:',
-        subtitle2: 'Plataforma de gestió:',
+        subtitle2: 'e-Manager:',
         mex2: "Una potent eina web innovativa que et permet llançar la teua convocatòria i gestionar totes les dades relatives amb extrema facilitat i simplicitat. Podràs consultar, organitzar, filtrar i modificar les propostes rebudes, i a més a més, crear noves per inserir-les a la teua programació. Fer el programa del teu event serà tan fàcil com arrossegar tarjetes dins d'un calendari i treure llistats de correu per tal de contactar amb artistes i espais et costarà només un click. Podràs publicar online un programa interactiu, actualitzable a cada moment, que perfectament s'adapte a qualsevol dispositiu mòbil, funcionant com la guia perfecta per al teu públic.",
-        subtitle3: 'Assessoria creativa:',
+        subtitle3: 'Assessoria:',
         mex3: "L'equip d'orfheo compta amb professionals amb molta experiència en la organització i gestió de grans events participatius. Podràs aprofitar d'un seguiment constant durant tot el procés de preparació del teu event i descobrir noves estratègies creatives focalitzades en traure i aconseguir el màxim de la teua comunitat cultural.",
         subtitle4: 'Connexió API:',
         mex4: "El servei API et permet rebre i utiliztar les dades relatives als teus events i convocatòries en la teua aplicació per a mòbils o espai web. Qualsevol canvi que fages en orfheo s'actualizarà de forma automàtica i simultànea en totes les plataformas conectades. Podràs disposar de toda la teua informació sempre actualitzada, on i quan tu vulgues.",
@@ -769,7 +769,9 @@
       }
     },
     services: {
-      mex: "Uneix a les persones, crea en xarxa amb la teua comunitat cultural i conecta't amb altres.<br> ​Llança en orfheo la convocatòria artístico-cultural del teu event <br> i gestiona totes les teues dades amb una nova i potent eina.",
+      mex: "​Llança en orfheo la convocatòria artístico-cultural del teu event <br> i gestiona totes les teues dades amb una nova i potent eina.",
+      pricing: "Preu: <del style='font-size:14px; margin:0 .1rem 0 1rem'> 59,90 €/mes </del>",
+      watchVideo:'Mira el vídeo demo',
       contact: "Contacta'ns",
       section1: {
         title: "Expandeix el teu event més enllà d'un event",
@@ -800,7 +802,7 @@
         mex: "El servei API permet rebre i utilitzar les dades relatives als teus events i convocatòries en totes les teus aplicacions. Qualsevol canvi que fages en orfheo s'actualizarà de forma automàtica i simultànea en la teua web i app per a mòbils. Podràs disposar de tota la teua informació sempre actualitzada, on i quan vulgues."
       },
       counseling: {
-        title: "Servei d'Assessoria Creativa per al teu projecte",
+        title: "Assessoria per al teu projecte",
         mex: "Podràs gaudir d'un seguiment constant durant tot el procés de preparació del teu event i descobrir noves estratègies creatives focalitzades en traure el millor del teu projecte."
       },
       price: {

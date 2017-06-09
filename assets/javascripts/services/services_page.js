@@ -79,7 +79,7 @@ ns.Widgets = ns.Widgets || {};
 					// $('<p>').html(' ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta. <br>'),
 					$('<button>')
 						.append(
-							$('<span>').text('Mira el vídeo demo').css('margin-right','.5rem'),
+							$('<span>').text(Pard.t.text('services.watchVideo')).css('margin-right','.5rem'),
 							Pard.Widgets.IconManager('play_circle').render()
 						)
 						.addClass('abutton')
@@ -93,7 +93,7 @@ ns.Widgets = ns.Widgets || {};
 					_videoPopup.open(); 	
 				});
 				var _offerPrice = $('<span>').text('14,90 €/mes').addClass('price-initialSectionServicePage');
-				var _price = $('<p>').append('Precio: <del style="font-size:14px; margin:0 .1rem 0 1rem"> 59,90 €/mes </del>',_offerPrice).css({'margin':'1rem 0 2rem 0'});
+				var _price = $('<p>').append(Pard.t.text('services.pricing'),_offerPrice).css({'margin':'1rem 0 2rem 0'});
 				var _iTitle = $('<h3>')
 					.text('e-Manager')
 					.css({
@@ -110,7 +110,7 @@ ns.Widgets = ns.Widgets || {};
 						.append(
 								$('<div>').append(Pard.Widgets.IconManager('tools').render()).addClass('call-icon-service-page'),
 								_iTitle,
-								$('<p>').html('Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta.'),
+								$('<p>').html(Pard.t.text('services.mex')),
 								_price,
 								_video,
 								_contactBtn
@@ -251,7 +251,7 @@ ns.Widgets = ns.Widgets || {};
 		var _titlePackContainer = $('<div>').addClass('title-price-pack');
 		var _listPackContainer = $('<div>').addClass('list-price-pack');
 		var _titlePack = $('<h6>').text('e-Manager');
-		var _list_E_Items = 'Una entera página dedicada/Convocatoria online/Difusión a todos los usuarios/Formularios multidioma/Recibe propuestas ilimitadas/Programa cualquier actividad/Programación online interactiva/Usa orfheo como App/URL personalizable/Soporte técnico constante';
+		var _list_E_Items = 'Una página entera dedicada/Convocatoria online/Difusión a todos los usuarios/Formularios multidiioma/Recibe propuestas ilimitadas/Programa cualquier actividad/Programación online interactiva/Usa orfheo como App/URL personalizable/Soporte técnico constante';
 		var _listPack = $('<ul>');
 		_list_E_Items.split('/').forEach(function(txt){
 			_listPack.append($('<li>').append(Pard.Widgets.IconManager('done').render(), $('<span>').text(txt)));
@@ -277,13 +277,13 @@ ns.Widgets = ns.Widgets || {};
 		_plusPack.append(
 			_plusTitlePack, 
 			$('<div>').append(_plusList).addClass('plus-list-servicePack'),
-			$('<div>').html('<p>Precios sin IVA y a pagar desde el día de lanzamiento de la convocatoria hasta el termine del evento.</p><p> Contáctanos para probar el manager de forma gratuita y sin compromiso.</p>').addClass('plus-additionalInfo-servicePack'),
+			$('<div>').html('<p>Precios sin IVA. A pagar desde el día de lanzamiento de la convocatoria hasta el termine del evento.</p><p> Contáctanos para probar el manager de forma gratuita y sin compromiso.</p>').addClass('plus-additionalInfo-servicePack')
 			);
 		var _priceText = $('<div>')
 			.addClass('text-pricingSection')
 			.append(
 				$('<h3>').text(Pard.t.text('services.price.title')),
-				$('<p>').html('<span style = "color:black; margin: -0.5rem 0px 4rem 0; display: block;"><b>Contáctanos para crear y gestionar tu evento en orfheo.</b></span>'),
+				$('<p>').html('<span style = "color:black; margin: 0 0 4rem 0; display: block;"><b>Contáctanos para crear y gestionar tu evento en orfheo.</b></span>'),
 				// .html(Pard.t.text('services.price.mex')),
 				$('<div>').append(_pack_E_manager, _plusPack),
 				_contactPriceBtn
