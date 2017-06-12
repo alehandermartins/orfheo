@@ -787,27 +787,27 @@
       contact: "Contacta'ns",
       section1: {
         title: "Expandeix el teu event més enllà d'un event",
-        mex: "Obrir el teu event en orfheo significa alimentar i donar valor a la teua comunitat més enllà d'una trobada només. Tindràs una pàgina completament dedicada. Entraràs en un món ple de noves possibilitats cuturals creades per connexions, un univers en expansió construït per fomentar al màxim la participació, compartir recursos i arribar a nous públics."
+        mex: "Obri el teu esdeveniment en orfheo, alimenta i dóna valor a la teua comunitat més enllà només d'una trobada. Tindràs una pàgina enterament dedicada i arribaràs a nous públics."
       },
       section2: {
         title: 'Llança amb força la teua convocatòria',
-        mex: "Comença bé amb el teu formulari personalitzat, és el principi d'una cosa gran. Qualsevol pot apuntarse fàcilment a la teua convocatòria des de la pàgina del teu event. Pregunta tot el que vulgues. Rebreràs tot ja ordenat i organizat automàticament."
+        mex: "Comença bé amb el teu formulari personalitzat, és el principi d'una cosa gran. Qualsevol pot apuntarse fàcilment a la teua convocatòria des de la pàgina del teu esdeveniment."
       },
       section3:{
         title: 'Visualitza i gestiona les dades rebudes',
-        mex: 'Visualitza, filtra i explora de forma fàcil i ràpida totes les propostes rebudes. Navega entre els perfils i selecciona els participants. Exporta dades, llistats de correu i tot el que et faja falta amb tan sols un "click". Estalvia temps, aprofita la potència de la informació ben organitzada, mantén tot baix control.'
+        mex: 'Visualitza, filtra i explora de forma fàcil i ràpida totes les propostes rebudes. Estalvia temps, aprofita la potència de la informació ben organitzada, mantín tot baix control.'
       },
       section4: {
         title: 'Crear el programa mai ha sigut igual',
-        mex: 'Construir la programació del teu event és tan fàcil com arrossegar les propostes en una taula. Organitza amb el teu equip i des de qualsevol lloc. Tot está sincronitzat en temps real i ràpidament modificable. Confirma, comenta i descarrega el programa en taules ordenades.'
+        mex: 'Construïx la programació del teu esdeveniment i  organitza amb el teu equip i des de qualsevol lloc. Tot está sincronitzat en temps real i ràpidament modificable.'
       },
       section5: {
         title: 'Preparat? Publica el programa interactiu',
-        mex: "Publica el teu programa interactiu en la pàgina de l'event. Permiteix al teu públic trobar el que vulga i navegar entre els perfils dels participants. Comparteix l'event amb un link i fes que sea un èxit."
+        mex: "Publica el teu programa interactiu. Permet al teu públic trobar el que vullga i navegar entre els perfils dels participants."
       },
       section6: {
         title: 'Sorpren al teu públic més que mai!',
-        mex: "orfheo s'adapta perfectament al tamany mòbil, funcionant per tu i per al teu públic como la guia perfecta durant el teu event. Es poden filtrar, ordenar i trobar continguts per ubicació en el mapa, per horas, per dies, per tags o per categories, o tot a la vegada."
+        mex: "Utilitza orfheo com l'App del teu esdeveniment: és la guia perfecta per a tu i per al teu públic. Ordena i troba fàcilmente el que vols veure. "
       },
       api:{
         title: 'API - Integra en temps real el que vulgues i on vulgues',
