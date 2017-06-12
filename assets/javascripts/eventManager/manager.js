@@ -22,13 +22,13 @@
     if ($(window).width()>640) _title.text(Pard.t.text('manager.title')).addClass('title-call-page');
     var _panels = $('<div>').css('padding', 0);
 
-    var _programTabTitle =  $('<a>').attr({href: "#"}).text(Pard.t.text('manager.program.tab'));
-    var _tableTabTitle =  $('<a>').attr({href: "#"}).text(Pard.t.text('manager.proposals.tab'));
-    var _utilsTabTitle =  $('<a>').attr({href: "#"}).text(Pard.t.text('manager.tools.tab'));
+    var _programTabTitle = $('<a>').attr({href: "#program"}).text(Pard.t.text('manager.program.tab'));
+    var _tableTabTitle =  $('<a>').attr({href: "#proposals"}).text(Pard.t.text('manager.proposals.tab'));
+    var _utilsTabTitle =  $('<a>').attr({href: "#utils", id:"#utilsBtn"}).text(Pard.t.text('manager.tools.tab'));
 
-    var _programTab = $('<li>').append(_programTabTitle);
-    var _tableTab = $('<li>').append(_tableTabTitle);
-    var _utilsTab = $('<li>').append(_utilsTabTitle);
+    var _programTab = $('<li>').append(_programTabTitle).attr({id:"programBtn"});
+    var _tableTab = $('<li>').append(_tableTabTitle).attr({id:"proposalsBtn"});
+    var _utilsTab = $('<li>').append(_utilsTabTitle).attr({id:"utilsBtn"});
 
     var _displayer = Pard.Displayer(the_event, forms);
 

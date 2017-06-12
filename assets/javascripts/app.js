@@ -203,6 +203,16 @@ Pard.EventManager = function(event_id){
         $('html').addClass('overflowHidden');
       });
       Pard.Bus.trigger('setPublishStatus');
+      var _arraySections = ['#proposals','#program','#utils'];
+      var _uri = new URI(document.location);
+      if ($.inArray(_uri.hash(), _arraySections)>-1){
+         $(_uri.hash()+'Btn').trigger('click');
+        // setTimeout(function(){
+        //   console.log($(_uri.hash()+'Btn'))
+         
+        // },1000)
+        
+      }
       spinner.stop();
     });
   });
