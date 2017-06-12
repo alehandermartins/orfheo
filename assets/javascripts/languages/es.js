@@ -697,6 +697,18 @@
         qr: {
           title: 'Descarga y difunde el codigo QR de la página de tu evento en orfheo',
           download: 'Descarga'
+        },
+        slug:{
+          title: 'URL corta',
+          created: 'Dirección personalizada a tu evento:',
+          create:'Crea la dirección personalizada de la página de tu evento:',
+          regexMex:'Usa letras minúsculas, números y/o los caracteres _ -',
+          unavailable: 'Esta dirección ya está siendo empleada',
+          regexError: 'La dirección sólo puede incluir letras minúsculas, números y/o los caracteres _ -',
+          lengthError: 'La dirección debe contener al menos tres caracteres',
+          available:'Dirección disponible',
+          popupMex: 'La nueva dirección será:',
+          popupWarning:'Funcionará paralelamente a la ya existente y no podrá ser eliminada o modificada una vez creada.'
         }
       }
     },
@@ -806,7 +818,15 @@
       },
       price: {
         title: 'El precio no es un límite',
-        mex: '<span style = "color:black; margin: -0.5rem 0px -1.5rem 0; display: block;"><b>Contáctanos para decidir juntos cuánto y cómo intercambiar con orfheo.</b></span><br><br> Mediante lo que haces, estás ayudando a construir algo realmente importante,<br>no solamente un gran proyecto, sino también una vibrante comunidad enfocada a una muy noble meta.<br> Queremos que siempre puedas hacerlo, y como tú, todos.'
+        subtitle: '<span style = "color:black; margin: 0 0 4rem 0; display: block;"><b>Contáctanos para crear y gestionar tu evento en orfheo.</b></span>'
+      },
+      e_pack: {
+        pricing: '<h3 style="font-weight:normal; display:inline">14,90</h3> €/mes<p style="color:#6f6f6f">Precio: <del>59,90 €/mes<del></p> <p style="text-align:center">La herramienta de gestión para grandes eventos</p>',
+        list: 'Una página entera dedicada/Convocatoria online/Difusión a todos los usuarios/Formularios multiidioma/Recibe propuestas ilimitadas/Programa cualquier actividad/Programación online interactiva/Usa orfheo como App/URL personalizable/Soporte técnico constante'
+      },
+      plus_pack:{
+        list:'API/Asesoría',
+        mex: '<p>Precios sin IVA. A pagar desde el día de lanzamiento de la convocatoria hasta el termine del evento.</p><p> Contáctanos para probar el manager de forma gratuita y sin compromiso.</p>'
       },
       endMex: 'Creemos en universos de creatividad, inclusivos, estimulantes, innovadores, tecnológicos, de integración social y de unión. Creemos en una nueva era, donde el centro sea compartir. Creemos en la interacción y la participación de las personas. Necesitamos acciones colectivas y verdaderos motores para crear una realidad cultural más humana, accesible y cercana. Necesitamos potenciar proyectos, trabajar en red y crecer en comunidad. Soñamos con construir nuevos horizontes sin barreras, un lugar en constante expansión que permita el fácil intercambio de experiencias e información. Hagámoslo posible juntos, ahora.'
     },

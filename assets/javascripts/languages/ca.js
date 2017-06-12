@@ -698,6 +698,18 @@
         qr: {
           title: 'Descarrega i difón el codi QR de la pàgina del teu event en orfheo',
           download: 'Descarrega'
+        },
+        slug:{
+          title: 'URL curta',
+          created: 'Adreça personalitzada al teu esdeveniment:',
+          create:'Crea la dirección personalizada de la página de tu evento:',
+          regexMex:"Crea l'adreça personalitzada de la pàgina del teu esdeveniment:",
+          unavailable: "Aquesta adreça ja està sent empleada",
+          regexError: "L'adreça només pot incloure lletres minúscules, nombres i/o els caràcters _ -",
+          lengthError: "L'adreça ha de contenir almenys tres caràcters",
+          available:'Adreça disponible',
+          popupMex: 'La nova adreça serà:',
+          popupWarning:'Funcionarà paral·lelament a la ja existent i no podrà ser eliminada o modificada una vegada creada.'
         }
       }
     },
@@ -807,7 +819,15 @@
       },
       price: {
         title: 'El preu no és un límit',
-        mex: 'Mitjançant el que fas, estàs ajudant a construir algo realment important,<br>no només un gran projecte, sinó també una vibrant comunitat encarada a una molt noble meta.<br> Volem que sempre pugues fer-ho, i como tu, tots.'
+        subtitle: "Contacta'ns per a crear i gestionar el teu esdeveniment en orfheo."
+      },
+      e_pack: {
+        pricing: "<h3 style='font-weight:normal; display:inline'>14,90</h3> €/mes<p style='color:#6f6f6f'>Preu: <del>59,90 €/mes<del></p> <p style='text-align:center'>L'eina de gestió per a grans esdeveniments </p>",
+        list: "Una pàgina sencera dedicada/Convocatòria online/Difusió a tots els usuaris/Formularis multiidioma/Rep propostes il'limitades/Programa qualsevol activitat/Programació online interactiva/Utilitza orfheo com App/URL personalitzable/Suport tècnic constant"
+      },
+      plus_pack:{
+        list:'API/Asesoría',
+        mex: "<p>Preus sense IVA. A pagar des del dia de llançament de la convocatòria fins que acabe l'esdeveniment.</p><p> Contacta'ns per a provar el mànager de forma gratuïta y sense compromís.</p>"
       },
       endMex: "Creiem en univers de creativitat, inclusius, estimulants, innovadors, tecnològics, d'integració social i de unió. Creiem en una nova era, on el centre siga compartir. Creiem en la interacció i la participació de les persones. Necessitem accions colectivas i veritables motors per crear una realitat cultural més humana, accesible i properta. Necessitem potenciar projectes, treballs en xarxa i créixer en comunitat. Somiem amb construir nous horitzons sense barreres, un lloc en constant expansió que permeta el fàcil intercanvi d'experièncias i informació. Fem-ho possible junts, ara."
     },

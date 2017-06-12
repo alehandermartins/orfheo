@@ -696,6 +696,18 @@
         qr: {
           title: 'Download and distribute the QR code of your event page in orfheo',
           download: 'Download'
+        },
+        slug:{
+          title: 'Short URL',
+          created: 'Link of your event page:',
+          create:'Set the link of your event page:',
+          regexMex:'Use lowercase letters, numbers and/or the characters _ -',
+          unavailable: 'This link is already in use',
+          regexError: 'The link only can contain lowercase letters, numbers and/or the characters _ -',
+          lengthError: 'The link must contain at least three characters',
+          available:'Available',
+          popupMex: 'The new link to your event page is:',
+          popupWarning:'It will work next to the current one and it cannot be modified or eliminated once created.'
         }
       }
     },
@@ -767,33 +779,33 @@
       }
     },
     services: {
-      mex: 'Launch the call of your artistic-cultural event through orfheo and <br> manage all your data with a new and powerful tool.',
-      pricing: "Price: <del style='font-size:14px; margin:0 .1rem 0 1rem'> 59,90 €/mes </del>",
+      mex: 'Launch the call of your artistic-cultural event through orfheo <br>and  manage all your data with a new and powerful tool.',
+      pricing: "The price is not a limit: <del style='font-size:14px; margin:0 .2rem 0 1rem'> 59,90 €/mes </del> 14,90 €/mes",
       watchVideo:'Watch a demo video',
       contact: 'Contact us',
       section1: {
         title: 'Expand your event beyond an event',
-        mex: 'Opening your event in orfheo means feeding and giving value to your community beyond a single encounter. You will have an entirely dedicated page. You will enter a world full of new cutural possibilities created by connections, an expanding universe built to maximize participation, share resources and reach new audiences.'
+        mex: 'Open your event in orfheo and give value to your community beyond a single encounter. You will have an entirely dedicated page and you will achieve new audiences.'
       },
       section2: {
-        title: 'Throw your call loudly',
-        mex: "Get ready for the beginning of something great. Start with your customized form. Anyone can easily sign up in your call from your event page. Ask anything you want. You will receive everything sorted and organized."
+        title: 'Launch your call loudly',
+        mex: "Get ready for the beginning of something great. Start with your customized form. Anyone can easily sign up in your call from your event page."
       },
       section3:{
         title: 'View and manage the received data',
-        mex: 'View, filter and explore all received proposals. Navigate between profiles and select participants. Export data, mailing lists and everything you need with just a "click". Save time, harness the power of well-organized information, keep everything under control.'
+        mex: 'View, filter and explore all received proposals. Save time, harness the power of well-organized information and keep everything under control.'
       },
       section4: {
         title: 'Creating a program has never been the same',
-        mex: 'Building the program of your event is as easy as dragging the proposals on a board. Organize side by side with your team and from anywhere. Everything is synchronized in real time and quickly modifiable. Confirm, comment and download the program in ordered tables.'
+        mex: 'Build the program of your event and organize anything side by side with your team. Everything is synchronized in real time and quickly modifiable. '
       },
       section5: {
         title: 'Ready? Publish the interactive program',
-        mex: 'Publish your interactive program on the event page. It allows your audience to find what they want and navigate between the profiles of the participants. Share the event with a link and make it a success.'
+        mex: 'Publish your interactive program. It allows your audience to find what they want and navigate between the profiles of the participants.'
       },
       section6: {
         title: 'Surprise your audience more than ever!',
-        mex: 'Orfheo fits perfectly in mobile size, working for you and your audience as the perfect guide during your event. You can filter, sort and find content by location on the map, by hours, by days, by tags or by categories, or by all at once.'
+        mex: 'Let orfheo be the App of your event: it works as the perfect guide  for you and your audience.'
       },
       api:{
         title: 'API - Integrate in real time what you want and wherever you want',
@@ -805,7 +817,15 @@
       },
       price: {
         title: 'Price is not a limit',
-        mex: '<span style = "color:black; margin: -0.5rem 0px -1.5rem 0; display: block;"><b>Let us get in touch to decide together what and how to interchange with orfheo.</b></span><br><br>Through what you do, you are helping to build something really important, not only a great project, <br>but also a vibrant community focused on a very noble goal.<br> We want you to always be able to do it, and like you, everyone.'
+        subtitle: '<span style = "color:black; margin: 0 0 4rem 0; display: block;"><b>Contact us to start managing your event by orfheo.</b></span>'
+      },
+      e_pack: {
+        pricing: '<h3 style="font-weight:normal; display:inline">14,90</h3> €/mes<p style="color:#6f6f6f">Precio: <del>59,90 €/mes<del></p> <p style="text-align:center">The management tool <br>for big events</p>',
+        list: 'Dedicated page/Open call online/Notification to all users/Multi-language forms/Recieve unlimited proposals/Schedule any activity/Interactive online program/Use orfheo as your App/Personal URL/Continuous technical support'
+      },
+      plus_pack:{
+        list: 'API/Counseling',
+        mex: '<p>Price without VAT. To be paid from the opening of your call till the end of your event.</p><p> Contact us for a  free trial of the manager.</p>'
       },
       endMex: "We believe in universes full of creativity, inclusiveness, stimulation, innovation, technology, social integration and union. We believe in a new era, where sharing is the motion force. We believe in the interaction and participation of people. We need collective actions and real engines to create a more human, accessible and close cultural reality. We need to empower projects, network and grow in community. We dream of building new horizons without barriers, a place in constant expansion that allows the easy exchange of experiences and information. Let's make it possible together, now."
     },

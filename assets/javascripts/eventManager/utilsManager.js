@@ -77,10 +77,10 @@
   ns.Widgets.Slug = function(event_id, slug){
     var _createdWidget = $('<div>').addClass('utilBox slug-box').append(Pard.Widgets.IconManager('play_arrow').render().addClass('arrow-util-box'));
 
-    var _slugTitle = $('<p>').text('URL corta').addClass('utilTitle')
+    var _slugTitle = $('<p>').text(Pard.t.text('manager.tools.slug.title')).addClass('utilTitle')
 
-    var _messageYesSlug = 'Dirección personalizada a tu evento:'
-    var _messageNoSlug = 'Crea la dirección personalizada de la página de tu evento:'
+    var _messageYesSlug = Pard.t.text('manager.tools.slug.created');
+    var _messageNoSlug = Pard.t.text('manager.tools.slug.create');
     var _content = $('<div>').append(
       $('<p>').text(_messageNoSlug).addClass('utilText')
     )
@@ -103,11 +103,11 @@
       .html('&#xE86C')
 
     var _errorText = $('<p>')
-    var _initTxt = 'Usa letras minúsculas, números y/o los caracteres _ -'
-    var _unavailabletext = 'Esta dirección ya está siendo empleada'
-    var _regExError = 'La dirección sólo puede incluir letras minúsculas, números y/o los caracteres _ -'
-    var _lengthError = 'La dirección debe contener al menos tres caracteres'
-    var _availableTxt = 'Dirección disponible'
+    var _initTxt =  Pard.t.text('manager.tools.slug.regexMex')
+    var _unavailabletext = Pard.t.text('manager.tools.slug.unavailable')
+    var _regExError = Pard.t.text('manager.tools.slug.regexError')
+    var _lengthError = Pard.t.text('manager.tools.slug.lengthError')
+    var _availableTxt = Pard.t.text('manager.tools.slug.available')
 
     var regEx = /^[a-z0-9_-]*$/
     var _error = $('<div>')
@@ -297,7 +297,7 @@
       var _createdWidget = $('<div>')
       var _mex = $('<p>')
         .append(
-          'La nueva dirección será:'
+          Pard.t.text('manager.tools.slug.popupMex')
         ) 
       var _link = $('<p>')
         .text('www.orfheo.org/event/'+ _slug.val())
@@ -307,7 +307,7 @@
       var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text(Pard.t.text('dictionary.cancel').capitalize())
 
       var _warning = $('<p>')
-        .text('Funcionará paralelamente a la ya existente y no podrá ser eliminada o modificada una vez creada.')
+        .text(Pard.t.text('manager.tools.slug.popupWarning'))
 
       // 'Esta nueva dirección funcionará paralelamente a la ya existente y no podrá ser eliminada o modificada una vez creada'
 
