@@ -24,7 +24,7 @@ ns.Widgets = ns.Widgets || {};
 			.append(
 				$('<iframe>')
 					.attr({
-						'src':'https://www.youtube.com/embed/cdOdDsXSBRw?rel=0&amp;showinfo=0;&autoplay=1',
+						'src':'https://www.youtube.com/embed/pqdtWgrBeDE?rel=0&amp;showinfo=0;&autoplay=1',
 						'frameborder':'0',
 						'allowfullscreen':''
 					})
@@ -89,11 +89,16 @@ ns.Widgets = ns.Widgets || {};
 				)
 				.addClass('video-service-page')
 				.click(function(){
-     			_popupContent.append(_videoIframe);
+     _popupContent.append(_videoIframe);
 					_videoPopup.open(); 	
 				});
-				var _offerPrice = $('<span>').text('14,90 €/mes').addClass('price-initialSectionServicePage');
-				var _price = $('<p>').append(Pard.t.text('services.pricing'),_offerPrice).css({'margin':'1rem 0 2rem 0'});
+				// var _offerPrice = $('<span>').text('14,90 €/mes').addClass('price-initialSectionServicePage');
+				var _price = $('<p>')
+					.append(
+						Pard.t.text('services.pricing')
+						// _offerPrice
+					)
+					.css({'margin':'0rem 0 2rem 0'});
 				var _iTitle = $('<h3>')
 					.text('e-Manager')
 					.css({
@@ -110,7 +115,7 @@ ns.Widgets = ns.Widgets || {};
 						.append(
 								$('<div>').append(Pard.Widgets.IconManager('tools').render()).addClass('call-icon-service-page'),
 								_iTitle,
-								$('<p>').html(Pard.t.text('services.mex')),
+								$('<p>').html(Pard.t.text('services.mex')).css('margin-bottom','0'),
 								_price,
 								_video,
 								_contactBtn

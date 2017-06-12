@@ -769,32 +769,32 @@
     },
     services: {
       mex: '​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta.',
-      pricing:'Precio: <del style="font-size:14px; margin:0 .1rem 0 1rem"> 59,90 €/mes </del>',
+      pricing:'El precio no es un límite: <del style="font-size:14px; margin:0 .2rem 0 .5rem"> 59,90 €/mes </del> 14,90 €/mes.',
       watchVideo:'Mira el vídeo demo',
       contact: 'Contáctanos',
       section1: {
         title: 'Expande tu evento más allá de un evento',
-        mex: 'Abrir tu evento en orfheo significa alimentar y dar valor a tu comunidad más allá de un solo encuentro. Tendrás una página enteramente dedicada. Entrarás en un mundo lleno de nuevas posibilidades cuturales creadas por conexiones, un universo en expansión construido para fomentar al máximo la participación, compartir recursos y llegar a nuevos públicos.'
+        mex: 'Abre tu evento en orfheo, alimenta y da valor a tu comunidad más allá de un solo encuentro. Tendrás una página enteramente dedicada y llegarás a nuevos públicos.'
       },
       section2: {
         title: 'Lanza con fuerza tu convocatoria',
-        mex: 'Empieza bien con tu formulario personalizado, es el principio de algo grande. Cualquiera puede apuntarse fácilmente a tu convocatoria desde la página de tu evento. Pregunta todo lo que quieras. Recibirás todo ya ordenado y organizado automáticamente.'
+        mex: 'Empieza bien con tu formulario personalizado, es el principio de algo grande. Cualquiera puede apuntarse fácilmente a tu convocatoria desde la página de tu evento.'
       },
       section3:{
         title: 'Visualiza y gestiona los datos recibidos',
-        mex: 'Visualiza, filtra y explora de forma fácil y rápida todas las propuestas recibidas. Navega entre los perfiles y selecciona los participantes. Exporta datos, listados de correo y todo lo que te haga falta con tan solo un "click". Ahorra tiempo, aprovecha la potencia de la información bien organizada, mantén todo bajo control.'
+        mex: 'Visualiza, filtra y explora de forma fácil y rápida todas las propuestas recibidas. Ahorra tiempo, aprovecha la potencia de la información bien organizada, mantén todo bajo control.'
       },
       section4: {
         title: 'Crea el programa, nunca ha sido igual',
-        mex: 'Construir la programación de tu evento es tan fácil como arrastrar las propuestas en un tablón. Organiza junto a tu equipo y desde cualquier lugar. Todo está sincronizado en tiempo real y rápidamente modificable. Confirma, comenta y descarga el programa en tablas ordenadas.'
+        mex: 'Construye la programación de tu evento y organiza junto a tu equipo y desde cualquier lugar. Todo está sincronizado en tiempo real y rápidamente modificable.'
       },
       section5: {
         title: '¿Listo? Publica el programa interactivo',
-        mex: 'Publica tu programa interactivo en la página del evento. Permite a tu público encontrar lo que quiera y navegar entre los perfiles de los participantes. Comparte el evento con un link y haz que sea un éxito.'
+        mex: 'Publica tu programa interactivo. Permite a tu público encontrar lo que quiera y navegar entre los perfiles de los participantes.'
       },
       section6: {
         title: '¡Sorprende a tu público más que nunca!',
-        mex: 'Orfheo se adapta perfectamente al tamaño móvil, funcionando para ti y para tu público como la guía perfecta durante tu evento. Se pueden filtrar, ordenar y encontrar contenidos por ubicación en el mapa, por horas, por días, por tags o por categorías, o todo a la vez.'
+        mex: 'Usa orfheo como la App de tu evento: es la guía perfecta para ti y para tu público. Ordena y encuentra fácilmente lo que quieres ver.'
       },
       api:{
         title: 'API - Integra en tiempo real lo que quieras y donde quieras',
