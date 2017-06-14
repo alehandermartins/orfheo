@@ -268,12 +268,16 @@ Pard.Event = function(the_event, status){
 Pard.Services = function(status){
 
   var _main = Pard.Widgets.MainServicesPage();
-  var _footer = Pard.Widgets.Footer();
+  var _footer = Pard.Widgets.Footer().render();
 
   Pard.UserStatus['status'] = status;
   if(status == 'outsider'){ 
     var _header = Pard.Widgets.LoginHeader();
-  _main.addClass('outsider-main')
+    _main.addClass('outsider-main');
+    _footer.css({
+      position:'fixed',
+      bottom:'0'
+    });
   }
   else{
     var _header = Pard.Widgets.InsideHeader(false);
@@ -281,7 +285,7 @@ Pard.Services = function(status){
 
   var _whole = $('<div>').addClass('whole-container');
 
-  _whole.append(_header.render(), _main, _footer.render());
+  _whole.append(_header.render(), _main, _footer);
 
   $('body').append(_whole);
 

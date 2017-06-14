@@ -521,13 +521,13 @@
       servicesTab: {
         tab: 'Servicios',
         title: '¿Qué te ofrece orfheo?',
-        mex1: 'Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, las posibilidades que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> en la gestión de procesos y grandes eventos participativos</strong>. En específico, con orfheo puedes aprovechar los siguientes servicios:',
+        mex1: 'Las posibilidades que se ofrecen se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y <strong> gestión de procesos y grandes eventos participativos</strong>. En específico, con orfheo puedes aprovechar los siguientes servicios:',
         subtitle2: 'e-Manager:',
-        mex2: 'Una potente herramienta web innovadora que te permite lanzar tu convocatoria y gestionar todos los datos relativos con extrema facilidad y simplicidad. Podrás consultar, organizar, filtrar y modificar las propuestas recibidas así como podrás crear nuevas para insertarlas en tu programación. Hacer el programa de tu evento será tan fácil como arrastrar tarjetas dentro de un calendario y sacar listados de correo para contactar con artistas y espacios te costará un solo click. Podrás publicar online un programa interactivo, actualizable en cada momento, que perfectamente se adapta a cualquier dispositivo móvil, funcionando como la guía perfecta para tu público.',
+        mex2: 'Una potente herramienta web innovadora que te permite lanzar tu convocatoria y gestionar todos los datos relativos con extrema facilidad y simplicidad.',
         subtitle3: 'Asesoría:',
-        mex3: 'El equipo de orfheo cuenta con profesionales con mucha experiencia en la organización y gestión de grandes eventos participativos. Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr el máximo de tu comunidad cultural.',
-        subtitle4: 'Conexión API:',
-        mex4: 'El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sitio web. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en todas las plataformas conectadas. Podrás disponer de toda tu información siempre actualizada, donde y cuando tú quieras.',
+        mex3: ' Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr el máximo de tu comunidad cultural.',
+        subtitle4: 'API:',
+        mex4: 'El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sitio web.',
         mex5: 'Para más información, consulta nuestra %{link} y contáctanos, sin compromiso, a través del siguiente formulario:',
         servicesPage: 'página de servicios'
       },
