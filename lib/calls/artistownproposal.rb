@@ -45,7 +45,7 @@ class ArtistOwnProposal
     artist = {
       user_id: user_id,
       profile_id: params[:profile_id] || (SecureRandom.uuid),
-      email: params[:email],
+      email: params[:email].downcase,
       name: params[:name],
       address: params[:address],
       phone: params[:phone],

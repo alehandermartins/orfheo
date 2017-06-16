@@ -31,7 +31,7 @@ module Services
 
       def user_for email, password
         user = Repos::Users.grab({email: email})
-        raise Pard::Invalid::Password unless (user[:email].downcase == email.downcase && user[:password] == password)
+        raise Pard::Invalid::Password unless (user[:email] == email && user[:password] == password)
         raise Pard::Invalid::Unvalidated unless user[:validation] == true
         user
       end

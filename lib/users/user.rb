@@ -16,7 +16,7 @@ class User
   def new_user user
     {
       user_id: SecureRandom.uuid,
-      email: user[:email],
+      email: user[:email].downcase,
       password: user[:password],
       lang: user[:lang],
       validation: false,

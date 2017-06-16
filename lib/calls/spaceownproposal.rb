@@ -44,7 +44,7 @@ class SpaceOwnProposal
     space = {
       user_id: user_id,
       profile_id: params[:profile_id] || (SecureRandom.uuid),
-      email: params[:email],
+      email: params[:email].downcase,
       name: params[:name],
       address: params[:address],
       proposal_id: params[:proposal_id] || (SecureRandom.uuid),

@@ -21,7 +21,7 @@ class LoginController < BaseController
     scopify :email, :password
     check_params email, password
     check_existing_user email
-    user = user_for email, password
+    user = user_for email.downcase, password
     session[:identity] = user[:user_id]
     success({lang: user[:lang]})
   end
