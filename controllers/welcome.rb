@@ -35,10 +35,6 @@ class WelcomeController < BaseController
 		success
 	end
 
-	get '/event/Distrito008' do
-		redirect "http://www.orfheo.org/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6"
-	end
-
 	private
 	def check_params! params
 		raise Pard::Invalid::Params if [:email, :name, :message].any?{|field| params[field].blank?}

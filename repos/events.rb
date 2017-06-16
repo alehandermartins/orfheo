@@ -69,7 +69,7 @@ module Repos
           })
         @@events_collection.update_many({"spaces.profile_id": participant[:profile_id]},
           {
-            "$set": {'spaces.$.name': participant[:name], 'spaces.$.address': participant[:address], 'spaces.$.phone': participant[:phone], 'spaces.$.category': participant[:category], 'spaces.$.description': participant[:description]}
+            "$set": {'spaces.$.name': participant[:name], 'spaces.$.address': participant[:address], 'spaces.$.phone': participant[:phone]}
           })
       end
 
