@@ -20,7 +20,7 @@ class LoginController < BaseController
   post '/login' do
     scopify :email, :password
     check_params email, password
-    check_existing_user email
+    check_existing_user email.downcase
     user = user_for email.downcase, password
     session[:identity] = user[:user_id]
     success({lang: user[:lang]})
