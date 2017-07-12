@@ -6,7 +6,8 @@ module Services
       def deliver_mail_to user, type, payload = nil
         MailBody.render(type, user, payload)
         Pony.mail({
-          to: user[:email]
+          to: user[:email],
+          charset: 'UTF-8'
         })
       end
     end
